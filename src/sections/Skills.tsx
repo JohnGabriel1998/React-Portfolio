@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useRef, useEffect, useState } from 'react';
 
@@ -7,23 +7,12 @@ const Skills = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
 
   const skills = {
     frontend: ['React', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Framer Motion', 'Redux', 'Vue.js', 'Sass', 'JavaScript', 'HTML5', 'CSS3'],
     backend: ['Node.js', 'Express', 'PostgreSQL', 'MongoDB', 'GraphQL', 'REST APIs', 'Python', 'Django', 'MySQL', 'Redis'],
     tools: ['Git', 'Docker', 'AWS', 'Vercel', 'Figma', 'VS Code', 'Webpack', 'Jest', 'GitHub', 'Postman'],
   };
-
-  // Smooth spring animations for parallax
-  const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
-  
-  const x1 = useSpring(useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]), springConfig);
-  const x2 = useSpring(useTransform(scrollYProgress, [0, 1], ["0%", "50%"]), springConfig);
-  const x3 = useSpring(useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]), springConfig);
 
   return (
     <section id="skills" ref={containerRef} className="py-32 bg-gray-50/50 dark:bg-gray-900/50 overflow-hidden">
