@@ -1,0 +1,123 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "about": "自己紹介",
+    "services": "サービス",
+    "portfolio": "ポートフォリオ",
+    "skills": "スキル",
+    "education": "学歴",
+    "contact": "お問い合わせ"
+  },
+  "hero": {
+    "greeting": "こんにちは、私は",
+    "name": "ジョン・ガブリエル",
+    "title": "フルスタック開発者",
+    "description": "React、Node.js、Express、MongoDBを使用したフルスタックWeb開発に焦点を当てた情熱的なIT学生。現在Adam Innovationでインターンシップを行いながら、レスポンシブで実用的なアプリケーションを構築。アイデアをクリーンでユーザーフレンドリーなデジタル体験に変換します。",
+    "subtitle": "インスピレーションと魅力的なデジタル体験を構築",
+    "badge": "新しいプロジェクトを受付中",
+    "cta": {
+      "hire": "採用する",
+      "resume": "履歴書をダウンロード"
+    }
+  },
+  "about": {
+    "title": "自己紹介",
+    "subtitle": "私についてもっと知る",
+    "description": "私は美しく機能的なWebアプリケーションを作成することが大好きな情熱的なフルスタック開発者です。React、TypeScript、最新のWeb技術の専門知識を活かして、クリーンなコードと思慮深いデザインでアイデアを実現します。",
+    "stats": {
+      "experience": "年の経験",
+      "projects": "完了したプロジェクト",
+      "clients": "満足したクライアント",
+      "awards": "受賞"
+    }
+  },
+  "services": {
+    "title": "サービス",
+    "subtitle": "私ができること",
+    "web": {
+      "title": "Web開発",
+      "description": "最新技術を使用したレスポンシブで動的なWebアプリケーションの構築"
+    },
+    "mobile": {
+      "title": "モバイル開発",
+      "description": "React Nativeを使用したクロスプラットフォームモバイルアプリの作成"
+    },
+    "ui": {
+      "title": "UI/UXデザイン",
+      "description": "ユーザーが愛する直感的で美しいユーザーインターフェースの設計"
+    },
+    "consulting": {
+      "title": "技術コンサルティング",
+      "description": "技術スタックとアーキテクチャの決定に関する専門的なアドバイスの提供"
+    }
+  },
+  "portfolio": {
+    "title": "ポートフォリオ",
+    "subtitle": "最近の作品",
+    "viewProject": "プロジェクトを見る",
+    "viewCode": "コードを見る",
+    "projects": {
+      "ecommerce": {
+        "title": "Eコマースプラットフォーム",
+        "description": "決済統合を備えたフル機能のオンラインショッピングプラットフォーム"
+      },
+      "social": {
+        "title": "ソーシャルメディアアプリ",
+        "description": "チャット機能を備えたリアルタイムソーシャルネットワーキングアプリケーション"
+      },
+      "dashboard": {
+        "title": "分析ダッシュボード",
+        "description": "インタラクティブなチャートとレポートを備えたデータ視覚化ダッシュボード"
+      }
+    }
+  },
+  "skills": {
+    "title": "スキル",
+    "subtitle": "使用している技術",
+    "categories": {
+      "frontend": "フロントエンド",
+      "backend": "バックエンド",
+      "tools": "ツール・その他",
+      "soft": "ソフトスキル"
+    }
+  },
+  "education": {
+    "title": "学歴",
+    "subtitle": "私の学術的な旅"
+  },
+  "contact": {
+    "title": "お問い合わせ",
+    "subtitle": "一緒に働きましょう",
+    "description": "ご質問がある場合や一緒に働きたい場合は、フォームまたは以下の連絡先詳細を使用してお気軽にお問い合わせください。",
+    "form": {
+      "name": "お名前",
+      "namePlaceholder": "お名前を入力してください",
+      "email": "メールアドレス",
+      "emailPlaceholder": "メールアドレスを入力してください",
+      "message": "メッセージ",
+      "messagePlaceholder": "メッセージをここに書いてください",
+      "send": "送信",
+      "sending": "送信中...",
+      "success": "メッセージが正常に送信されました！",
+      "error": "メッセージの送信に失敗しました。もう一度お試しください。"
+    },
+    "info": {
+      "email": "メール",
+      "phone": "電話",
+      "location": "所在地"
+    },
+    "modal": {
+      "title": "ありがとうございます！",
+      "message": "お問い合わせいただきありがとうございます。できるだけ早くご返信いたします！",
+      "close": "閉じる"
+    }
+  },
+  "footer": {
+    "rights": "全著作権所有",
+    "madeWith": "❤️を込めて作成"
+  },
+  "theme": {
+    "light": "ライトモード",
+    "dark": "ダークモード"
+  }
+}
