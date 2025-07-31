@@ -411,7 +411,7 @@ const Home = () => {
             initial={{ opacity: 0, y: 40, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 1, delay: 1.1 }}
-            className="flex flex-col sm:flex-row gap-6 justify-center relative"
+            className="flex flex-col sm:flex-row gap-6 justify-center items-center relative"
           >
             {/* Primary button with enhanced effects */}
             <motion.button
@@ -542,12 +542,12 @@ const Home = () => {
           </motion.div>
         </motion.div>
 
-        {/* Enhanced Scroll Indicator with spectacular effects */}
+        {/* Enhanced Scroll Indicator with spectacular effects - centered under buttons */}
         <motion.div
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          className="mt-12 flex justify-center"
         >
           <motion.button
             onClick={() => scrollToSection('about')}
@@ -555,14 +555,9 @@ const Home = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           >
-            {/* Pulsing ring effect - properly centered */}
+            {/* Pulsing ring effect */}
             <motion.div
               className="absolute inset-0 rounded-full border-2 border-violet-400/30 pointer-events-none"
-              style={{
-                left: '50%',
-                top: '50%',
-                transform: 'translate(-50%, -50%)'
-              }}
               animate={{
                 scale: [1, 1.5, 1],
                 opacity: [0.5, 0, 0.5]
@@ -637,16 +632,6 @@ const Home = () => {
               />
             ))}
           </motion.button>
-          
-          {/* Scroll hint text */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2.5, duration: 1 }}
-            className="text-xs text-gray-400 mt-2 font-medium tracking-wider"
-          >
-            SCROLL TO EXPLORE
-          </motion.p>
         </motion.div>
       </div>
     </section>
