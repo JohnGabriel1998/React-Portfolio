@@ -83,7 +83,35 @@
   },
   "education": {
     "title": "Education",
-    "subtitle": "My academic journey"
+    "subtitle": "My academic journey",
+    "visitWebsite": "Visit Website",
+    "highschool": {
+      "title": "High School",
+      "institution": "Rinconada National Technical Vocational School",
+      "duration": "2011 — 2015",
+      "description": "Completed secondary education in Iriga City, Camsur, Philippines. Built foundational knowledge in technical and vocational skills."
+    },
+    "japanese": {
+      "title": "Japanese Language",
+      "institution": "Yokohama International Education Academy",
+      "duration": "2022 — 2024",
+      "description": "Intensive Japanese language study program in Yokohama, Japan. Achieved proficiency in Japanese communication and cultural understanding.",
+      "website": "https://yiea.com/"
+    },
+    "globalit": {
+      "title": "Global IT",
+      "institution": "Forum Information Academy",
+      "duration": "2024 — 2026",
+      "description": "Currently pursuing Global IT program in Niigata, Japan. Specializing in modern web technologies, software development, and international IT practices.",
+      "website": "https://forum.ac.jp"
+    },
+    "internship": {
+      "title": "Software Development Intern",
+      "institution": "Adam Innovations 株式会社",
+      "duration": "2024 — Present",
+      "description": "Working as a software development intern at Adam Innovations, gaining hands-on experience in web development, software engineering practices, and collaborative development workflows.",
+      "website": "https://www.adam-i.com"
+    }
   },
   "contact": {
     "title": "Get In Touch",

@@ -2,6 +2,16 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useInView } from 'react-intersection-observer';
 
+interface EducationItem {
+  id: string;
+  title: string;
+  institution: string;
+  duration: string;
+  description: string;
+  align: 'left' | 'right';
+  website?: string;
+}
+
 const Education = () => {
   const { t } = useTranslation();
   const [ref, inView] = useInView({
@@ -9,30 +19,41 @@ const Education = () => {
     triggerOnce: true,
   });
 
-  const educationData = [
+  const educationData: EducationItem[] = [
     {
       id: 'highschool',
-      title: 'High School',
-      institution: 'Rinconada National Technical Vocational School',
-      duration: '2011 — 2015',
-      description: 'Completed secondary education in Iriga City, Camsur, Philippines. Built foundational knowledge in technical and vocational skills.',
+      title: t('education.highschool.title'),
+      institution: t('education.highschool.institution'),
+      duration: t('education.highschool.duration'),
+      description: t('education.highschool.description'),
       align: 'left',
     },
     {
       id: 'japanese',
-      title: 'Japanese Language',
-      institution: 'Yokohama International Education Academy',
-      duration: '2022 — 2024',
-      description: 'Intensive Japanese language study program in Yokohama, Japan. Achieved proficiency in Japanese communication and cultural understanding.',
+      title: t('education.japanese.title'),
+      institution: t('education.japanese.institution'),
+      duration: t('education.japanese.duration'),
+      description: t('education.japanese.description'),
+      website: t('education.japanese.website'),
       align: 'right',
     },
     {
-      id: 'globalit',
-      title: 'Global IT',
-      institution: 'Forum Information Academy',
-      duration: '2024 — 2026',
-      description: 'Currently pursuing Global IT program in Niigata, Japan. Specializing in modern web technologies, software development, and international IT practices.',
+      id: 'internship',
+      title: t('education.internship.title'),
+      institution: t('education.internship.institution'),
+      duration: t('education.internship.duration'),
+      description: t('education.internship.description'),
+      website: t('education.internship.website'),
       align: 'left',
+    },
+    {
+      id: 'globalit',
+      title: t('education.globalit.title'),
+      institution: t('education.globalit.institution'),
+      duration: t('education.globalit.duration'),
+      description: t('education.globalit.description'),
+      website: t('education.globalit.website'),
+      align: 'right',
     },
   ];
 
@@ -114,6 +135,21 @@ const Education = () => {
                     <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                       {item.description}
                     </p>
+                    
+                    {/* Website link for internship */}
+                    {item.website && (
+                      <motion.a
+                        href={item.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="inline-flex items-center mt-3 text-sm text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 transition-colors duration-200"
+                      >
+                        <span className="mr-1">🌐</span>
+                        {t('education.visitWebsite')}
+                      </motion.a>
+                    )}
                     
                     {/* Arrow pointing to timeline - Desktop only */}
                     <div className={`hidden lg:block absolute top-1/2 transform -translate-y-1/2 ${

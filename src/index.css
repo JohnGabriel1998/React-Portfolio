@@ -1,5 +1,5 @@
-/* Import Google Fonts - Inter for body */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+/* Import Google Fonts - Inter for body and Japanese fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;600;700;800;900&display=swap');
 
 /* Custom Font Face for Drip October */
 @font-face {
@@ -26,12 +26,40 @@
     font-family: 'Inter', system-ui, sans-serif;
   }
   
-  /* Drip October styling */
+  /* Drip October styling with Japanese support */
   .drip-font {
     font-family: 'Drip October', 'Impact', sans-serif;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     position: relative;
+  }
+  
+  /* Japanese specific drip font styling - with higher specificity */
+  html[lang="ja"] .drip-font,
+  [lang="ja"] .drip-font,
+  body[data-lang="ja"] .drip-font {
+    font-family: 'Noto Sans JP', '游ゴシック', 'Yu Gothic', 'Hiragino Sans', sans-serif !important;
+    font-weight: 700;
+    text-transform: none !important; /* Don't uppercase Japanese text */
+    letter-spacing: 0.1em;
+  }
+  
+  /* Force Japanese font for specific selectors */
+  .drip-font:lang(ja),
+  .drip-font[lang="ja"] {
+    font-family: 'Noto Sans JP', '游ゴシック', 'Yu Gothic', 'Hiragino Sans', sans-serif !important;
+    font-weight: 700;
+    text-transform: none !important;
+    letter-spacing: 0.1em;
+  }
+  
+  /* Japanese font class for manual application */
+  .japanese-font,
+  .drip-font.japanese-font {
+    font-family: 'Noto Sans JP', '游ゴシック', 'Yu Gothic', 'Hiragino Sans', sans-serif !important;
+    font-weight: 700 !important;
+    text-transform: none !important;
+    letter-spacing: 0.1em !important;
   }
   
   /* Hero title with drip effect */
@@ -42,6 +70,17 @@
     line-height: 0.9;
     position: relative;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  }
+  
+  /* Japanese hero title styling - with higher specificity */
+  html[lang="ja"] .hero-drip-title,
+  [lang="ja"] .hero-drip-title,
+  body[data-lang="ja"] .hero-drip-title {
+    font-family: 'Noto Sans JP', '游ゴシック', 'Yu Gothic', 'Hiragino Sans', sans-serif !important;
+    font-weight: 800;
+    text-transform: none !important;
+    letter-spacing: 0.15em;
+    line-height: 1.1;
   }
   
   /* CSS-based drip effect fallback */

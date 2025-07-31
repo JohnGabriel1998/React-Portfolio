@@ -83,7 +83,35 @@
   },
   "education": {
     "title": "学歴",
-    "subtitle": "私の学術的な旅"
+    "subtitle": "私の学術的な旅",
+    "visitWebsite": "ウェブサイトを見る",
+    "highschool": {
+      "title": "高等学校",
+      "institution": "リンコナダ国立技術職業学校",
+      "duration": "2011年 — 2015年",
+      "description": "フィリピンのカムスール州イリガ市で中等教育を修了。技術・職業スキルの基礎知識を習得。"
+    },
+    "japanese": {
+      "title": "日本語学習",
+      "institution": "横浜国際教育学院",
+      "duration": "2022年 — 2024年",
+      "description": "横浜での集中的な日本語学習プログラム。日本語でのコミュニケーション能力と文化理解を習得。",
+      "website": "https://yiea.com/"
+    },
+    "globalit": {
+      "title": "グローバルIT",
+      "institution": "フォーラム情報アカデミー専門学校",
+      "duration": "2024年 — 2026年",
+      "description": "新潟でグローバルITプログラムを現在受講中。現代のウェブ技術、ソフトウェア開発、国際的なIT実践を専門としている。",
+      "website": "https://forum.ac.jp"
+    },
+    "internship": {
+      "title": "ソフトウェア開発インターン",
+      "institution": "アダムイノベーション株式会社",
+      "duration": "2024年 — 現在",
+      "description": "アダムイノベーションでソフトウェア開発インターンとして勤務し、ウェブ開発、ソフトウェアエンジニアリング実践、共同開発ワークフローの実践的な経験を積んでいる。",
+      "website": "https://www.adam-i.com"
+    }
   },
   "contact": {
     "title": "お問い合わせ",

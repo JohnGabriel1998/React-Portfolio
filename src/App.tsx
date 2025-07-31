@@ -30,13 +30,13 @@ function App() {
       <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
       <main>
         <AnimatePresence mode="wait">
-          <Home />
-          <About />
-          <Education />
-          <Services />
-          <Portfolio />
-          <Skills />
-          <Contact />
+          <Home key="home" />
+          <About key="about" />
+          <Education key="education" />
+          <Services key="services" />
+          <Portfolio key="portfolio" />
+          <Skills key="skills" />
+          <Contact key="contact" />
         </AnimatePresence>
       </main>
       <Footer />

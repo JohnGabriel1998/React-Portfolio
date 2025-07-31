@@ -10,7 +10,7 @@ interface NavbarProps {
 }
 
 const Navbar = ({ darkMode, setDarkMode }: NavbarProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -24,6 +24,31 @@ const Navbar = ({ darkMode, setDarkMode }: NavbarProps) => {
     { id: 'skills', label: t('nav.skills') },
     { id: 'contact', label: t('nav.contact') },
   ];
+
+  // Update language attributes and force re-render
+  useEffect(() => {
+    const updateLanguageAttributes = () => {
+      document.documentElement.lang = i18n.language;
+      document.body.setAttribute('data-lang', i18n.language);
+      
+      // Force re-render of navigation items by updating classes
+      const navElements = document.querySelectorAll('.nav-item, .drip-font');
+      navElements.forEach(item => {
+        if (i18n.language === 'ja') {
+          item.classList.add('japanese-font');
+        } else {
+          item.classList.remove('japanese-font');
+        }
+      });
+    };
+
+    updateLanguageAttributes();
+    i18n.on('languageChanged', updateLanguageAttributes);
+    
+    return () => {
+      i18n.off('languageChanged', updateLanguageAttributes);
+    };
+  }, [i18n]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,7 +92,9 @@ const Navbar = ({ darkMode, setDarkMode }: NavbarProps) => {
           {/* Logo with drip font - Updated to JGCB */}
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="text-2xl md:text-3xl font-bold cursor-pointer drip-font drip-text-shadow"
+            className={`text-2xl md:text-3xl font-bold cursor-pointer drip-font drip-text-shadow ${
+              i18n.language === 'ja' ? 'japanese-font' : ''
+            }`}
             onClick={() => scrollToSection('home')}
           >
             <span className="text-gray-900 dark:text-white">JGCB</span>
@@ -82,6 +109,8 @@ const Navbar = ({ darkMode, setDarkMode }: NavbarProps) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className={`relative px-3 py-2 rounded-full text-sm font-medium transition-all duration-300 drip-font ${
+                  i18n.language === 'ja' ? 'japanese-font' : ''
+                } ${
                   activeSection === item.id
                     ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-lg'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
@@ -101,7 +130,7 @@ const Navbar = ({ darkMode, setDarkMode }: NavbarProps) => {
 
           {/* Right Side Items */}
           <div className="hidden lg:flex items-center space-x-2">
-            <LanguageToggle />
+            <LanguageToggle isMobile={false} />
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
@@ -152,6 +181,8 @@ const Navbar = ({ darkMode, setDarkMode }: NavbarProps) => {
                     whileHover={{ scale: 1.02, x: 5 }}
                     whileTap={{ scale: 0.98 }}
                     className={`block w-full text-left px-4 py-2 rounded-lg text-base font-medium transition-colors duration-300 drip-font ${
+                      i18n.language === 'ja' ? 'japanese-font' : ''
+                    } ${
                       activeSection === item.id
                         ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-lg'
                         : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
@@ -161,7 +192,9 @@ const Navbar = ({ darkMode, setDarkMode }: NavbarProps) => {
                   </motion.button>
                 ))}
                 <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
-                  <LanguageToggle />
+                  <div className="px-4 py-2">
+                    <LanguageToggle isMobile={true} />
+                  </div>
                 </div>
               </div>
             </motion.div>

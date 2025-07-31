@@ -17,4 +17,17 @@ i18n
     }
   });
 
+// Update HTML lang attribute and body data attribute when language changes
+i18n.on('languageChanged', (lng) => {
+  document.documentElement.setAttribute('lang', lng);
+  document.body.setAttribute('data-lang', lng);
+  console.log('Language changed to:', lng); // Debug log
+});
+
+// Set initial lang attribute and data attribute
+const initLang = i18n.language;
+document.documentElement.setAttribute('lang', initLang);
+document.body.setAttribute('data-lang', initLang);
+console.log('Initial language set to:', initLang); // Debug log
+
 export default i18n;
