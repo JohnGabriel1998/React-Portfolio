@@ -54,29 +54,32 @@ const Education = () => {
   };
 
   return (
-    <section id="education" className="py-32">
+    <section id="education" className="py-16 sm:py-20 md:py-24 lg:py-32">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-8 sm:mb-12 md:mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 drip-font drip-text-shadow">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 drip-font drip-text-shadow">
             {t('education.title')}
           </h2>
-          <div className="w-20 h-1 bg-gradient-primary mx-auto rounded-full mt-4"></div>
+          <div className="w-16 sm:w-20 h-1 bg-gradient-primary mx-auto rounded-full mt-4"></div>
         </motion.div>
 
         <motion.div
           ref={ref}
           className="relative"
         >
-          {/* Timeline Line */}
+          {/* Timeline Line - Desktop */}
           <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-violet-500 via-indigo-500 to-violet-500 hidden lg:block" />
+          
+          {/* Timeline Line - Mobile/Tablet */}
+          <div className="absolute left-4 sm:left-6 md:left-8 top-0 w-0.5 h-full bg-gradient-to-b from-violet-500 via-indigo-500 to-violet-500 lg:hidden" />
 
           {/* Education Items */}
-          <div className="space-y-16">
+          <div className="space-y-8 sm:space-y-12 md:space-y-16">
             {educationData.map((item, index) => (
               <motion.div
                 key={item.id}
@@ -89,7 +92,7 @@ const Education = () => {
                 }`}
               >
                 {/* Content */}
-                <div className={`w-full lg:w-5/12 ${
+                <div className={`w-full pl-8 sm:pl-12 md:pl-16 lg:w-5/12 lg:pl-0 ${
                   item.align === 'right' ? 'lg:text-right lg:pr-12' : 'lg:pl-12'
                 }`}>
                   <motion.div
@@ -97,22 +100,22 @@ const Education = () => {
                       y: -5,
                       transition: { duration: 0.2 }
                     }}
-                    className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300"
+                    className="bg-white dark:bg-gray-900 p-4 sm:p-5 md:p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300"
                   >
-                    <h3 className="text-xl font-bold mb-1 drip-font text-gray-900 dark:text-white">
+                    <h3 className="text-lg sm:text-xl font-bold mb-1 drip-font text-gray-900 dark:text-white">
                       {item.title}
                     </h3>
-                    <p className="text-base font-semibold text-violet-600 dark:text-violet-400 mb-1">
+                    <p className="text-sm sm:text-base font-semibold text-violet-600 dark:text-violet-400 mb-1">
                       {item.institution}
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-3 italic">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-2 sm:mb-3 italic">
                       {item.duration}
                     </p>
                     <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                       {item.description}
                     </p>
                     
-                    {/* Arrow pointing to timeline - smaller */}
+                    {/* Arrow pointing to timeline - Desktop only */}
                     <div className={`hidden lg:block absolute top-1/2 transform -translate-y-1/2 ${
                       item.align === 'right' 
                         ? 'left-full ml-6 -translate-x-1' 
@@ -127,7 +130,7 @@ const Education = () => {
                   </motion.div>
                 </div>
 
-                {/* Timeline Node */}
+                {/* Timeline Node - Desktop */}
                 <div className="absolute left-1/2 transform -translate-x-1/2 hidden lg:flex items-center justify-center">
                   <motion.div
                     initial={{ scale: 0 }}
@@ -140,9 +143,9 @@ const Education = () => {
                     }}
                     className="relative"
                   >
-                    {/* Outer circle - smaller */}
+                    {/* Outer circle */}
                     <div className="w-6 h-6 bg-white dark:bg-gray-900 rounded-full flex items-center justify-center shadow-md">
-                      {/* Inner circle - smaller */}
+                      {/* Inner circle */}
                       <div className="w-4 h-4 bg-gradient-to-br from-violet-500 to-indigo-500 rounded-full" />
                     </div>
                     {/* Glow effect */}
@@ -150,37 +153,32 @@ const Education = () => {
                   </motion.div>
                 </div>
 
-                {/* Spacer for opposite side */}
+                {/* Timeline Node - Mobile/Tablet */}
+                <div className="absolute left-4 sm:left-6 md:left-8 transform -translate-x-1/2 flex items-center justify-center lg:hidden">
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={inView ? { scale: 1 } : { scale: 0 }}
+                    transition={{ 
+                      duration: 0.4, 
+                      delay: index * 0.2 + 0.3,
+                      type: "spring",
+                      stiffness: 200
+                    }}
+                    className="relative"
+                  >
+                    {/* Outer circle - responsive size */}
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 bg-white dark:bg-gray-900 rounded-full flex items-center justify-center shadow-md">
+                      {/* Inner circle - responsive size */}
+                      <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-gradient-to-br from-violet-500 to-indigo-500 rounded-full" />
+                    </div>
+                    {/* Glow effect */}
+                    <div className="absolute inset-0 w-4 h-4 sm:w-5 sm:h-5 bg-violet-500/20 rounded-full blur-sm animate-pulse" />
+                  </motion.div>
+                </div>
+
+                {/* Spacer for opposite side - Desktop only */}
                 <div className="hidden lg:block w-5/12" />
               </motion.div>
-            ))}
-          </div>
-
-          {/* Mobile Timeline */}
-          <div className="absolute left-8 top-0 w-0.5 h-full bg-gradient-to-b from-violet-500 via-indigo-500 to-violet-500 lg:hidden" />
-          
-          {/* Mobile Timeline Nodes */}
-          <div className="lg:hidden">
-            {educationData.map((item, index) => (
-              <div
-                key={`mobile-node-${item.id}`}
-                className="absolute left-8 transform -translate-x-1/2"
-                style={{ top: `${index * 33.33}%` }}
-              >
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={inView ? { scale: 1 } : { scale: 0 }}
-                  transition={{ 
-                    duration: 0.4, 
-                    delay: index * 0.2 + 0.3,
-                    type: "spring",
-                    stiffness: 200
-                  }}
-                  className="w-5 h-5 bg-white dark:bg-gray-900 rounded-full flex items-center justify-center shadow-md"
-                >
-                  <div className="w-3 h-3 bg-gradient-to-br from-violet-500 to-indigo-500 rounded-full" />
-                </motion.div>
-              </div>
             ))}
           </div>
         </motion.div>
