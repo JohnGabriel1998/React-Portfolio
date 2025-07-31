@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useInView } from 'react-intersection-observer';
-import { Github, ExternalLink, Code, Calendar, Star, GitBranch } from 'lucide-react';
+import { Github, ExternalLink,  Calendar, Star, GitBranch } from 'lucide-react';
 
 const Portfolio = () => {
   const { t } = useTranslation();
