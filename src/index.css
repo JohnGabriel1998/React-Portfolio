@@ -1,6 +1,9 @@
 /* Import Google Fonts - Inter for body and Japanese fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;600;700;800;900&display=swap');
 
+/* Import Advanced Animations */
+@import './styles/advanced-animations.css';
+
 /* Custom Font Face for Drip October */
 @font-face {
   font-family: 'Drip October';

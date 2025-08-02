@@ -1,26 +1,49 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, useInView, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { ArrowDown, Sparkles, Code, Zap, Rocket } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const Home = () => {
   const { t } = useTranslation();
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 300], [0, -50]);
-  const y2 = useTransform(scrollY, [0, 300], [0, -100]);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollY, scrollYProgress } = useScroll();
+  
+  // Enhanced parallax transforms
+  const y1 = useTransform(scrollY, [0, 1000], [0, -150]);
+  const y2 = useTransform(scrollY, [0, 1000], [0, -300]);
+  const y3 = useTransform(scrollY, [0, 1000], [0, 100]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+  const rotate = useTransform(scrollY, [0, 1000], [0, 15]);
+  
+  // 3D perspective transforms
+  const rotateX = useTransform(scrollY, [0, 500], [0, 10]);
+  const rotateY = useTransform(scrollY, [0, 500], [0, -5]);
+  
+  // Additional transforms for typing effect
+  const nameRotateX = useTransform(scrollY, [0, 500], [0, 10]);
+  const nameRotateY = useTransform(scrollY, [0, 500], [0, -5]);
+  
+  // Smooth spring animations
+  const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
+  const smoothMouseX = useSpring(0, springConfig);
+  const smoothMouseY = useSpring(0, springConfig);
+  
+  // In-view detection for scroll-triggered animations
+  const isInView = useInView(heroRef, { once: false, margin: "-10%" });
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth) * 100,
-        y: (e.clientY / window.innerHeight) * 100,
-      });
+      const x = (e.clientX / window.innerWidth) * 100;
+      const y = (e.clientY / window.innerHeight) * 100;
+      
+      smoothMouseX.set(x);
+      smoothMouseY.set(y);
     };
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [smoothMouseX, smoothMouseY]);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -42,6 +65,67 @@ const Home = () => {
 
   // Split name into individual characters for animation
   const nameChars = t('hero.name').split('');
+
+    // Typing effect state
+  const [typingPhase, setTypingPhase] = useState<'typing' | 'deleting'>('typing');
+  const [displayedChars, setDisplayedChars] = useState<boolean[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Initialize displayed chars array
+  useEffect(() => {
+    setDisplayedChars(new Array(nameChars.length).fill(false));
+    setCurrentIndex(0);
+  }, [nameChars.length]);
+
+  // Typing effect logic
+  useEffect(() => {
+    if (nameChars.length === 0) return;
+
+    let timeoutId: number;
+
+    const typeNextChar = () => {
+      if (typingPhase === 'typing') {
+        if (currentIndex < nameChars.length) {
+          setDisplayedChars(prev => {
+            const newChars = [...prev];
+            newChars[currentIndex] = true;
+            return newChars;
+          });
+          setCurrentIndex(prev => prev + 1);
+          timeoutId = window.setTimeout(typeNextChar, 150);
+        } else {
+          // Wait phase before deleting
+          timeoutId = window.setTimeout(() => {
+            setTypingPhase('deleting');
+          }, 2000);
+        }
+      } else if (typingPhase === 'deleting') {
+        if (currentIndex > 0) {
+          setCurrentIndex(prev => prev - 1);
+          setDisplayedChars(prev => {
+            const newChars = [...prev];
+            newChars[currentIndex - 1] = false;
+            return newChars;
+          });
+          timeoutId = window.setTimeout(typeNextChar, 100);
+        } else {
+          // Wait phase before typing again
+          timeoutId = window.setTimeout(() => {
+            setTypingPhase('typing');
+          }, 1000);
+        }
+      }
+    };
+
+    // Start the typing animation
+    timeoutId = window.setTimeout(typeNextChar, 500); // Initial delay
+
+    return () => {
+      if (timeoutId) {
+        window.clearTimeout(timeoutId);
+      }
+    };
+  }, [typingPhase, currentIndex, nameChars.length]);
 
   // Floating elements animation variants
   const floatingVariants = {
@@ -73,42 +157,113 @@ const Home = () => {
   };
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative pt-16 overflow-hidden">
-      {/* Enhanced animated background */}
+    <motion.section 
+      ref={heroRef}
+      id="home" 
+      className="min-h-screen flex items-center justify-center relative pt-16 overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800"
+      style={{
+        scale,
+        opacity,
+        rotateX,
+        rotateY,
+        perspective: 1000,
+      }}
+      transition={{
+        scale: { duration: 0.5 },
+        opacity: { duration: 0.5 },
+      }}
+    >
+      {/* Enhanced animated background with advanced parallax */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Parallax gradient orbs */}
+        {/* Multi-layered parallax gradient orbs */}
         <motion.div 
-          style={{ y: y1 }}
-          className="absolute top-1/4 -left-1/4 w-96 h-96 bg-gradient-to-br from-violet-400 via-purple-500 to-indigo-600 dark:from-violet-900/30 dark:via-purple-900/20 dark:to-indigo-900/30 rounded-full blur-3xl opacity-60"
+          style={{ 
+            y: y1,
+            rotateZ: rotate,
+            scale: useTransform(scrollY, [0, 1000], [1, 1.5])
+          }}
+          className="absolute top-1/4 -left-1/4 w-96 h-96 bg-gradient-to-br from-gray-300/40 via-slate-400/30 to-gray-500/40 dark:from-gray-700/30 dark:via-gray-800/20 dark:to-gray-900/30 rounded-full blur-3xl opacity-60"
+          animate={{
+            x: [0, 50, 0],
+            y: [0, -30, 0],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
         />
         <motion.div 
-          style={{ y: y2 }}
-          className="absolute bottom-1/4 -right-1/4 w-96 h-96 bg-gradient-to-br from-indigo-400 via-blue-500 to-cyan-600 dark:from-indigo-900/30 dark:via-blue-900/20 dark:to-cyan-900/30 rounded-full blur-3xl opacity-60"
+          style={{ 
+            y: y2,
+            rotateZ: useTransform(rotate, r => -r),
+            scale: useTransform(scrollY, [0, 1000], [1, 0.8])
+          }}
+          className="absolute bottom-1/4 -right-1/4 w-96 h-96 bg-gradient-to-br from-slate-300/40 via-gray-400/30 to-slate-500/40 dark:from-slate-700/30 dark:via-gray-800/20 dark:to-slate-900/30 rounded-full blur-3xl opacity-60"
+          animate={{
+            x: [0, -40, 0],
+            y: [0, 20, 0],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
         />
         
-        {/* Floating geometric shapes */}
+        {/* Additional parallax layer */}
+        <motion.div
+          style={{ 
+            y: y3,
+            x: useTransform(scrollY, [0, 1000], [0, 200])
+          }}
+          className="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-br from-gray-400/30 via-slate-300/30 to-gray-600/30 dark:from-gray-600/20 dark:via-gray-700/20 dark:to-gray-800/20 rounded-full blur-2xl opacity-40"
+          animate={{
+            rotate: [0, 360],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+            scale: { duration: 8, repeat: Infinity, ease: "easeInOut" }
+          }}
+        />
+        
+        {/* Enhanced floating geometric shapes with 3D transforms */}
         <motion.div
           variants={floatingVariants}
           initial="initial"
           animate="animate"
+          style={{
+            rotateX: useTransform(scrollY, [0, 500], [0, 360]),
+            rotateY: useTransform(scrollY, [0, 500], [0, 180]),
+          }}
           className="absolute top-20 left-20 w-16 h-16 border-2 border-violet-400/30 dark:border-violet-600/40 rounded-lg"
         />
         <motion.div
           variants={staggeredFloating}
           initial="initial"
           animate="animate"
+          style={{
+            rotateX: useTransform(scrollY, [0, 500], [0, -180]),
+            rotateZ: useTransform(scrollY, [0, 500], [0, 360]),
+          }}
           className="absolute top-40 right-32 w-12 h-12 bg-gradient-to-br from-indigo-400 to-purple-600 rounded-full opacity-20"
         />
         <motion.div
           variants={floatingVariants}
           initial="initial"
           animate="animate"
-          style={{ animationDelay: '1s' }}
-          className="absolute bottom-32 left-32 w-8 h-8 border border-cyan-400/40 dark:border-cyan-600/50 rotate-45"
+          style={{ 
+            animationDelay: '1s',
+            rotateY: useTransform(scrollY, [0, 500], [0, 360]),
+            rotateZ: useTransform(scrollY, [0, 500], [45, 405]),
+          }}
+          className="absolute bottom-32 left-32 w-8 h-8 border border-cyan-400/40 dark:border-cyan-600/50"
         />
         
-        {/* Animated particles */}
-        {[...Array(8)].map((_, i) => (
+        {/* Enhanced animated particles with scroll-triggered effects */}
+        {[...Array(12)].map((_, i) => (
           <motion.div
             key={i}
             initial={{ 
@@ -117,32 +272,69 @@ const Home = () => {
               scale: 0 
             }}
             animate={{
-              y: [0, -30, 0],
+              y: [0, -50, 0],
               scale: [0, 1, 0],
-              opacity: [0, 0.6, 0]
+              opacity: [0, 0.8, 0],
+              rotateZ: [0, 360, 720],
+            }}
+            style={{
+              x: useTransform(scrollY, [0, 1000], [0, (i % 2 === 0 ? 100 : -100)]),
+              rotateX: useTransform(scrollY, [0, 500], [0, 180]),
             }}
             transition={{
-              duration: 4 + Math.random() * 2,
+              duration: 6 + Math.random() * 4,
               repeat: Infinity,
-              delay: Math.random() * 2,
+              delay: Math.random() * 3,
               ease: "easeInOut"
             }}
-            className="absolute w-2 h-2 bg-gradient-to-r from-violet-400 to-indigo-600 rounded-full"
+            className="absolute w-3 h-3 bg-gradient-to-r from-violet-400 to-indigo-600 rounded-full"
           />
         ))}
 
-        {/* Interactive cursor follower */}
+        {/* Enhanced interactive cursor follower with 3D effects */}
         <motion.div
           className="absolute w-32 h-32 bg-gradient-to-r from-violet-600/10 to-indigo-600/10 rounded-full blur-xl pointer-events-none"
-          animate={{
-            x: mousePosition.x * 8,
-            y: mousePosition.y * 6,
+          style={{
+            x: useTransform(smoothMouseX, x => x * 8),
+            y: useTransform(smoothMouseY, y => y * 6),
+            rotateX: useTransform(smoothMouseY, [0, 100], [-10, 10]),
+            rotateY: useTransform(smoothMouseX, [0, 100], [-10, 10]),
+            scale: useTransform(scrollYProgress, [0, 0.5], [1, 1.5]),
           }}
-          transition={{ type: "spring", stiffness: 50, damping: 20 }}
+          animate={{
+            background: [
+              'radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%)',
+              'radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)',
+              'radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, transparent 70%)',
+              'radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%)',
+            ]
+          }}
+          transition={{
+            background: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+          }}
+        />
+        
+        {/* Additional cursor effect layers */}
+        <motion.div
+          className="absolute w-16 h-16 border border-violet-400/20 rounded-full pointer-events-none"
+          style={{
+            x: useTransform(smoothMouseX, x => x * 4),
+            y: useTransform(smoothMouseY, y => y * 3),
+            rotateZ: useTransform(scrollY, [0, 1000], [0, 360]),
+          }}
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.7, 0.3],
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
         />
       </div>
 
-      {/* Enhanced SVG Filters for more dramatic effects */}
+      {/* Enhanced SVG Filters with advanced effects */}
       <svg className="hidden">
         <defs>
           <filter id="drip-filter">
@@ -161,10 +353,69 @@ const Home = () => {
               <feMergeNode in="SourceGraphic"/>
             </feMerge>
           </filter>
+          
+          <filter id="morphing-glow">
+            <feMorphology operator="dilate" radius="2"/>
+            <feGaussianBlur stdDeviation="6" result="glow"/>
+            <feColorMatrix type="matrix" values="1 0 1 0 0  0 1 1 0 0  1 0 1 0 0  0 0 0 1 0"/>
+            <feMerge> 
+              <feMergeNode in="glow"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          
+          <filter id="holographic">
+            <feOffset in="SourceGraphic" dx="2" dy="0" result="offset1"/>
+            <feOffset in="SourceGraphic" dx="-2" dy="0" result="offset2"/>
+            <feFlood flood-color="#ff0080" flood-opacity="0.3" result="pink"/>
+            <feFlood flood-color="#00ff80" flood-opacity="0.3" result="green"/>
+            <feComposite in="pink" in2="offset1" operator="in" result="comp1"/>
+            <feComposite in="green" in2="offset2" operator="in" result="comp2"/>
+            <feMerge>
+              <feMergeNode in="comp1"/>
+              <feMergeNode in="comp2"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          
+          <linearGradient id="rainbow-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style={{ stopColor: '#ff0080', stopOpacity: 1 }}>
+              <animate attributeName="stop-color" 
+                values="#ff0080;#ff8000;#80ff00;#00ff80;#0080ff;#8000ff;#ff0080" 
+                dur="3s" repeatCount="indefinite"/>
+            </stop>
+            <stop offset="50%" style={{ stopColor: '#00ff80', stopOpacity: 1 }}>
+              <animate attributeName="stop-color" 
+                values="#00ff80;#0080ff;#8000ff;#ff0080;#ff8000;#80ff00;#00ff80" 
+                dur="3s" repeatCount="indefinite"/>
+            </stop>
+            <stop offset="100%" style={{ stopColor: '#8000ff', stopOpacity: 1 }}>
+              <animate attributeName="stop-color" 
+                values="#8000ff;#ff0080;#ff8000;#80ff00;#00ff80;#0080ff;#8000ff" 
+                dur="3s" repeatCount="indefinite"/>
+            </stop>
+          </linearGradient>
+          
+          <path id="wave-path" d="M0,20 Q50,0 100,20 T200,20" stroke="url(#rainbow-gradient)" strokeWidth="2" fill="none">
+            <animateTransform attributeName="transform" type="translate" 
+              values="0,0;20,0;0,0" dur="2s" repeatCount="indefinite"/>
+          </path>
         </defs>
       </svg>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center relative z-10">
+      <motion.div 
+        className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center relative z-10"
+        style={{
+          y: useTransform(scrollY, [0, 500], [0, -100]),
+          rotateX: useTransform(scrollY, [0, 500], [0, 5]),
+        }}
+        animate={{
+          rotateY: isInView ? [0, 2, -2, 0] : 0,
+        }}
+        transition={{
+          rotateY: { duration: 6, repeat: Infinity, ease: "easeInOut" }
+        }}
+      >
         <motion.div
           initial={{ opacity: 0, y: 50, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -256,122 +507,98 @@ const Home = () => {
             
             <motion.div
               initial={{ opacity: 0, y: 40, scale: 0.8 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 1.2, delay: 0.4 }}
-              className="block hero-drip-title text-gray-900 dark:text-white drip-text-shadow relative"
-              style={{ filter: 'url(#glow)' }}
+              animate={{ 
+                opacity: 1, 
+                y: 0, 
+                scale: 1,
+                rotateZ: isInView ? [0, 1, -1, 0] : 0,
+              }}
+              transition={{ 
+                duration: 1.2, 
+                delay: 0.4,
+                rotateZ: { duration: 8, repeat: Infinity, ease: "easeInOut" }
+              }}
+              className="block text-4xl md:text-6xl lg:text-7xl text-gray-900 dark:text-white relative"
+              style={{ 
+                transformStyle: 'preserve-3d',
+                rotateX: nameRotateX,
+                rotateY: nameRotateY,
+                fontFamily: '"Inter", system-ui, -apple-system, sans-serif',
+                fontWeight: '800',
+                letterSpacing: '-0.025em',
+              }}
             >
-              {/* Enhanced animated dripping text with individual character effects */}
-              <span className="melting-text relative">
+              {/* Enhanced animated typing text with logo-style fonts */}
+              <span className="relative tracking-tight">
                 {nameChars.map((char, index) => (
-                  <motion.span
-                    key={index}
-                    initial={{ 
-                      opacity: 0, 
-                      y: -50, 
-                      rotateY: -90,
-                      scale: 0.5
-                    }}
-                    animate={{ 
-                      opacity: 1, 
-                      y: 0, 
-                      rotateY: 0,
-                      scale: 1
-                    }}
-                    transition={{ 
-                      duration: 0.8, 
-                      delay: 0.5 + index * 0.08,
-                      type: "spring",
-                      damping: 12,
-                      stiffness: 120
-                    }}
-                    whileHover={{
-                      scale: 1.1,
-                      y: -5,
-                      color: ['#8b5cf6', '#3b82f6', '#06b6d4', '#8b5cf6'],
-                      transition: { 
-                        duration: 0.3,
-                        color: { duration: 1, repeat: Infinity }
-                      }
-                    }}
-                    className="inline-block cursor-pointer"
-                    style={{ 
-                      transformOrigin: 'bottom center',
-                    }}
-                  >
-                    {char === ' ' ? '\u00A0' : char}
-                  </motion.span>
+                  <AnimatePresence key={index}>
+                    {displayedChars[index] && (
+                      <motion.span
+                        initial={{ 
+                          opacity: 0, 
+                          y: -50, 
+                          rotateY: -90,
+                          scale: 0.5,
+                          rotateX: -45,
+                        }}
+                        animate={{ 
+                          opacity: 1, 
+                          y: 0, 
+                          rotateY: 0,
+                          scale: 1,
+                          rotateX: 0,
+                        }}
+                        exit={{
+                          opacity: 0,
+                          y: 50,
+                          rotateY: 90,
+                          scale: 0.5,
+                          rotateX: 45,
+                        }}
+                        transition={{ 
+                          duration: 0.6, 
+                          type: "spring",
+                          damping: 12,
+                          stiffness: 120
+                        }}
+                        whileHover={{
+                          scale: 1.1,
+                          y: -5,
+                          rotateY: [0, 360],
+                          rotateX: [0, 15, 0],
+                          color: ['inherit', '#6366f1', '#06b6d4', 'inherit'],
+                          transition: { 
+                            duration: 0.3,
+                            color: { duration: 1, repeat: Infinity },
+                            rotateY: { duration: 0.6 },
+                          }
+                        }}
+                        className="inline-block cursor-pointer"
+                        style={{ 
+                          transformOrigin: 'bottom center',
+                          transformStyle: 'preserve-3d',
+                          fontWeight: '800',
+                        }}
+                      >
+                        {char === ' ' ? '\u00A0' : char}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 ))}
-              </span>
-              
-              {/* Enhanced drip effects with multiple layers */}
-              <div className="absolute -bottom-4 left-0 right-0 h-12 pointer-events-none">
-                <motion.div 
-                  className="drip-animation"
+                
+                {/* Typing cursor */}
+                <motion.span
+                  className="inline-block w-0.5 h-16 bg-gray-900 dark:bg-white ml-1"
                   animate={{
-                    opacity: [0.3, 0.7, 0.3],
-                    scale: [0.9, 1.1, 0.9]
+                    opacity: [1, 0, 1],
                   }}
                   transition={{
-                    duration: 3,
+                    duration: 1,
                     repeat: Infinity,
                     ease: "easeInOut"
                   }}
                 />
-                {/* Additional drip layers */}
-                {[...Array(3)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className={`absolute w-2 h-6 bg-gradient-to-b from-violet-500/30 to-transparent rounded-full`}
-                    style={{ left: `${20 + i * 25}%` }}
-                    animate={{
-                      scaleY: [0, 1, 0],
-                      opacity: [0, 0.6, 0]
-                    }}
-                    transition={{
-                      duration: 2 + i * 0.5,
-                      repeat: Infinity,
-                      delay: i * 0.3,
-                      ease: "easeInOut"
-                    }}
-                  />
-                ))}
-              </div>
-              
-              {/* Glowing particle effects around name */}
-              <motion.div
-                className="absolute inset-0 pointer-events-none"
-                animate={{
-                  rotate: [0, 360]
-                }}
-                transition={{
-                  duration: 20,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-              >
-                {[...Array(6)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="absolute w-1 h-1 bg-violet-400 rounded-full"
-                    style={{
-                      top: '50%',
-                      left: '50%',
-                      transformOrigin: `${60 + i * 20}px 0px`
-                    }}
-                    animate={{
-                      scale: [0, 1, 0],
-                      opacity: [0, 0.8, 0]
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      delay: i * 0.3,
-                      ease: "easeInOut"
-                    }}
-                  />
-                ))}
-              </motion.div>
+              </span>
             </motion.div>
           </h1>
 
@@ -498,16 +725,7 @@ const Home = () => {
               transition={{ duration: 0.6, delay: 1.3 }}
             >
               <span className="relative z-10 flex items-center gap-2">
-                <motion.span
-                  animate={{ 
-                    textShadow: [
-                      '0 0 0px rgba(139, 92, 246, 0)',
-                      '0 0 10px rgba(139, 92, 246, 0.5)',
-                      '0 0 0px rgba(139, 92, 246, 0)'
-                    ]
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
+                <motion.span>
                   {t('hero.cta.resume')}
                 </motion.span>
                 <motion.div
@@ -542,18 +760,36 @@ const Home = () => {
           </motion.div>
         </motion.div>
 
-        {/* Enhanced Scroll Indicator with spectacular effects - centered under buttons */}
+        {/* Enhanced Scroll Indicator with 3D effects */}
         <motion.div
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 2 }}
           className="mt-12 flex justify-center"
+          style={{
+            rotateX: useTransform(scrollY, [0, 300], [0, 20]),
+            y: useTransform(scrollY, [0, 300], [0, 50]),
+          }}
         >
           <motion.button
             onClick={() => scrollToSection('about')}
             className="relative p-4 rounded-full hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition-colors cursor-pointer group backdrop-blur-sm border border-white/10 dark:border-gray-700/30"
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ 
+              scale: 1.1,
+              rotateY: [0, 180, 360],
+              boxShadow: "0 10px 30px rgba(139, 92, 246, 0.3)"
+            }}
             whileTap={{ scale: 0.95 }}
+            style={{
+              transformStyle: 'preserve-3d',
+            }}
+            animate={{
+              rotateZ: [0, 5, -5, 0],
+            }}
+            transition={{
+              rotateZ: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+              rotateY: { duration: 1 },
+            }}
           >
             {/* Pulsing ring effect */}
             <motion.div
@@ -608,33 +844,36 @@ const Home = () => {
               </motion.div>
             </motion.div>
             
-            {/* Floating particles around scroll indicator */}
-            {[...Array(4)].map((_, i) => (
+            {/* Enhanced floating particles with 3D transforms */}
+            {[...Array(6)].map((_, i) => (
               <motion.div
                 key={i}
                 className="absolute w-1 h-1 bg-violet-400 rounded-full"
                 style={{
                   top: '50%',
                   left: '50%',
-                  transformOrigin: `${25 + i * 10}px 0px`
+                  transformOrigin: `${30 + i * 15}px 0px`,
+                  transformStyle: 'preserve-3d',
                 }}
                 animate={{
                   rotate: [0, 360],
                   scale: [0, 1, 0],
-                  opacity: [0, 0.8, 0]
+                  opacity: [0, 0.8, 0],
+                  rotateX: [0, 180, 360],
+                  rotateY: [0, 360, 0],
                 }}
                 transition={{
-                  duration: 3,
+                  duration: 4,
                   repeat: Infinity,
-                  delay: i * 0.2,
+                  delay: i * 0.3,
                   ease: "easeInOut"
                 }}
               />
             ))}
           </motion.button>
         </motion.div>
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 };
 
