@@ -2,19 +2,16 @@ import { motion, useScroll, useTransform, useSpring, useInView, AnimatePresence 
 import { useTranslation } from 'react-i18next';
 import { ArrowDown, Sparkles, Code, Zap, Rocket } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import WaveBackground from '../components/WaveBackground';
 
 const Home = () => {
   const { t } = useTranslation();
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollY, scrollYProgress } = useScroll();
   
-  // Enhanced parallax transforms
-  const y1 = useTransform(scrollY, [0, 1000], [0, -150]);
-  const y2 = useTransform(scrollY, [0, 1000], [0, -300]);
-  const y3 = useTransform(scrollY, [0, 1000], [0, 100]);
+  // Enhanced parallax transforms for remaining elements
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
   const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
-  const rotate = useTransform(scrollY, [0, 1000], [0, 15]);
   
   // 3D perspective transforms
   const rotateX = useTransform(scrollY, [0, 500], [0, 10]);
@@ -160,7 +157,7 @@ const Home = () => {
     <motion.section 
       ref={heroRef}
       id="home" 
-      className="min-h-screen flex items-center justify-center relative pt-16 overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800"
+      className="min-h-screen flex items-center justify-center relative pt-16 overflow-hidden"
       style={{
         scale,
         opacity,
@@ -173,125 +170,19 @@ const Home = () => {
         opacity: { duration: 0.5 },
       }}
     >
-      {/* Enhanced animated background with advanced parallax */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Multi-layered parallax gradient orbs */}
-        <motion.div 
-          style={{ 
-            y: y1,
-            rotateZ: rotate,
-            scale: useTransform(scrollY, [0, 1000], [1, 1.5])
-          }}
-          className="absolute top-1/4 -left-1/4 w-96 h-96 bg-gradient-to-br from-gray-300/40 via-slate-400/30 to-gray-500/40 dark:from-gray-700/30 dark:via-gray-800/20 dark:to-gray-900/30 rounded-full blur-3xl opacity-60"
-          animate={{
-            x: [0, 50, 0],
-            y: [0, -30, 0],
-          }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
+      {/* Enhanced Animated Wave Background */}
+      <div className="absolute inset-0 z-0">
+        <WaveBackground 
+          backdropBlurAmount="sm"
+          className="opacity-60 dark:opacity-40"
         />
-        <motion.div 
-          style={{ 
-            y: y2,
-            rotateZ: useTransform(rotate, r => -r),
-            scale: useTransform(scrollY, [0, 1000], [1, 0.8])
-          }}
-          className="absolute bottom-1/4 -right-1/4 w-96 h-96 bg-gradient-to-br from-slate-300/40 via-gray-400/30 to-slate-500/40 dark:from-slate-700/30 dark:via-gray-800/20 dark:to-slate-900/30 rounded-full blur-3xl opacity-60"
-          animate={{
-            x: [0, -40, 0],
-            y: [0, 20, 0],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2
-          }}
-        />
-        
-        {/* Additional parallax layer */}
-        <motion.div
-          style={{ 
-            y: y3,
-            x: useTransform(scrollY, [0, 1000], [0, 200])
-          }}
-          className="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-br from-gray-400/30 via-slate-300/30 to-gray-600/30 dark:from-gray-600/20 dark:via-gray-700/20 dark:to-gray-800/20 rounded-full blur-2xl opacity-40"
-          animate={{
-            rotate: [0, 360],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-            scale: { duration: 8, repeat: Infinity, ease: "easeInOut" }
-          }}
-        />
-        
-        {/* Enhanced floating geometric shapes with 3D transforms */}
-        <motion.div
-          variants={floatingVariants}
-          initial="initial"
-          animate="animate"
-          style={{
-            rotateX: useTransform(scrollY, [0, 500], [0, 360]),
-            rotateY: useTransform(scrollY, [0, 500], [0, 180]),
-          }}
-          className="absolute top-20 left-20 w-16 h-16 border-2 border-violet-400/30 dark:border-violet-600/40 rounded-lg"
-        />
-        <motion.div
-          variants={staggeredFloating}
-          initial="initial"
-          animate="animate"
-          style={{
-            rotateX: useTransform(scrollY, [0, 500], [0, -180]),
-            rotateZ: useTransform(scrollY, [0, 500], [0, 360]),
-          }}
-          className="absolute top-40 right-32 w-12 h-12 bg-gradient-to-br from-indigo-400 to-purple-600 rounded-full opacity-20"
-        />
-        <motion.div
-          variants={floatingVariants}
-          initial="initial"
-          animate="animate"
-          style={{ 
-            animationDelay: '1s',
-            rotateY: useTransform(scrollY, [0, 500], [0, 360]),
-            rotateZ: useTransform(scrollY, [0, 500], [45, 405]),
-          }}
-          className="absolute bottom-32 left-32 w-8 h-8 border border-cyan-400/40 dark:border-cyan-600/50"
-        />
-        
-        {/* Enhanced animated particles with scroll-triggered effects */}
-        {[...Array(12)].map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{ 
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-              scale: 0 
-            }}
-            animate={{
-              y: [0, -50, 0],
-              scale: [0, 1, 0],
-              opacity: [0, 0.8, 0],
-              rotateZ: [0, 360, 720],
-            }}
-            style={{
-              x: useTransform(scrollY, [0, 1000], [0, (i % 2 === 0 ? 100 : -100)]),
-              rotateX: useTransform(scrollY, [0, 500], [0, 180]),
-            }}
-            transition={{
-              duration: 6 + Math.random() * 4,
-              repeat: Infinity,
-              delay: Math.random() * 3,
-              ease: "easeInOut"
-            }}
-            className="absolute w-3 h-3 bg-gradient-to-r from-violet-400 to-indigo-600 rounded-full"
-          />
-        ))}
+      </div>
+      
+      {/* Overlay for additional atmosphere */}
+      <div className="absolute inset-0 z-10 bg-gradient-to-br from-gray-50/30 via-transparent to-gray-100/30 dark:from-gray-900/30 dark:via-transparent dark:to-gray-800/30" />
 
-        {/* Enhanced interactive cursor follower with 3D effects */}
+      {/* Enhanced animated background overlay with parallax */}
+      <div className="absolute inset-0 z-20 overflow-hidden pointer-events-none">{/* Enhanced interactive cursor follower with 3D effects */}
         <motion.div
           className="absolute w-32 h-32 bg-gradient-to-r from-violet-600/10 to-indigo-600/10 rounded-full blur-xl pointer-events-none"
           style={{
@@ -332,6 +223,68 @@ const Home = () => {
             ease: "easeInOut"
           }}
         />
+
+        {/* Enhanced floating geometric shapes with 3D transforms */}
+        <motion.div
+          variants={floatingVariants}
+          initial="initial"
+          animate="animate"
+          style={{
+            rotateX: useTransform(scrollY, [0, 500], [0, 360]),
+            rotateY: useTransform(scrollY, [0, 500], [0, 180]),
+          }}
+          className="absolute top-20 left-20 w-16 h-16 border-2 border-violet-400/30 dark:border-violet-600/40 rounded-lg"
+        />
+        <motion.div
+          variants={staggeredFloating}
+          initial="initial"
+          animate="animate"
+          style={{
+            rotateX: useTransform(scrollY, [0, 500], [0, -180]),
+            rotateZ: useTransform(scrollY, [0, 500], [0, 360]),
+          }}
+          className="absolute top-40 right-32 w-12 h-12 bg-gradient-to-br from-indigo-400 to-purple-600 rounded-full opacity-20"
+        />
+        <motion.div
+          variants={floatingVariants}
+          initial="initial"
+          animate="animate"
+          style={{ 
+            animationDelay: '1s',
+            rotateY: useTransform(scrollY, [0, 500], [0, 360]),
+            rotateZ: useTransform(scrollY, [0, 500], [45, 405]),
+          }}
+          className="absolute bottom-32 left-32 w-8 h-8 border border-cyan-400/40 dark:border-cyan-600/50"
+        />
+        
+        {/* Enhanced animated particles with scroll-triggered effects */}
+        {[...Array(8)].map((_, i) => (
+          <motion.div
+            key={i}
+            initial={{ 
+              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000),
+              y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1000),
+              scale: 0 
+            }}
+            animate={{
+              y: [0, -50, 0],
+              scale: [0, 1, 0],
+              opacity: [0, 0.8, 0],
+              rotateZ: [0, 360, 720],
+            }}
+            style={{
+              x: useTransform(scrollY, [0, 1000], [0, (i % 2 === 0 ? 100 : -100)]),
+              rotateX: useTransform(scrollY, [0, 500], [0, 180]),
+            }}
+            transition={{
+              duration: 6 + Math.random() * 4,
+              repeat: Infinity,
+              delay: Math.random() * 3,
+              ease: "easeInOut"
+            }}
+            className="absolute w-3 h-3 bg-gradient-to-r from-violet-400 to-indigo-600 rounded-full"
+          />
+        ))}
       </div>
 
       {/* Enhanced SVG Filters with advanced effects */}

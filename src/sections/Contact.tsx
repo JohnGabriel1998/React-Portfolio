@@ -80,30 +80,14 @@ const Contact = () => {
       <motion.section 
         ref={contactRef}
         id="contact" 
-        className="py-32 relative overflow-hidden"
-        style={{
-          background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
-        }}
-        animate={{
-          background: isInView 
-            ? [
-                'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
-                'linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%)',
-                'linear-gradient(135deg, #f0f4f8 0%, #d1d5db 100%)',
-                'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)'
-              ]
-            : 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)'
-        }}
-        transition={{
-          background: { duration: 10, repeat: Infinity, ease: "easeInOut" }
-        }}
+        className="py-32 relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900"
       >
         {/* Enhanced animated background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Floating geometric shapes with parallax */}
           <motion.div
             style={{ y: y1, rotate }}
-            className="absolute top-20 left-20 w-32 h-32 bg-gray-400/20 rounded-full blur-xl"
+            className="absolute top-20 left-20 w-32 h-32 bg-gray-400/20 dark:bg-blue-400/20 rounded-full blur-xl"
             animate={{
               scale: [1, 1.2, 1],
               x: [0, 50, 0],
@@ -116,7 +100,7 @@ const Contact = () => {
           />
           <motion.div
             style={{ y: y2, rotate: useTransform(rotate, r => -r) }}
-            className="absolute bottom-20 right-20 w-24 h-24 bg-slate-500/25 rounded-xl"
+            className="absolute bottom-20 right-20 w-24 h-24 bg-slate-500/25 dark:bg-purple-500/25 rounded-xl"
             animate={{
               scale: [1, 1.3, 1],
               y: [0, -30, 0],
@@ -133,7 +117,7 @@ const Contact = () => {
           {[...Array(15)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-2 h-2 bg-gray-600/30 rounded-full"
+              className="absolute w-2 h-2 bg-gray-600/30 dark:bg-gray-300/30 rounded-full"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
@@ -180,7 +164,7 @@ const Contact = () => {
             className="text-center mb-16"
           >
             <motion.div
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gray-500/20 backdrop-blur-sm border border-gray-400/30 text-gray-700 mb-6"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gray-500/20 dark:bg-gray-700/30 backdrop-blur-sm border border-gray-400/30 dark:border-gray-600/30 text-gray-700 dark:text-gray-300 mb-6"
               whileHover={{ scale: 1.05, y: -2 }}
               animate={{
                 boxShadow: [
@@ -199,7 +183,7 @@ const Contact = () => {
             </motion.div>
             
             <motion.h2 
-              className="text-5xl md:text-7xl font-bold mb-6 text-gray-800 drip-font"
+              className="text-5xl md:text-7xl font-bold mb-6 text-gray-800 dark:text-gray-100 drip-font"
               style={{
                 filter: 'drop-shadow(0 0 20px rgba(100,116,139,0.5))',
                 textShadow: '0 0 30px rgba(100,116,139,0.8)',
@@ -221,7 +205,7 @@ const Contact = () => {
             </motion.h2>
             
             <motion.p 
-              className="text-xl text-gray-700/90 max-w-3xl mx-auto leading-relaxed"
+              className="text-xl text-gray-700/90 dark:text-gray-300/90 max-w-3xl mx-auto leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -241,7 +225,7 @@ const Contact = () => {
               style={{ transformStyle: 'preserve-3d' }}
             >
               <motion.div
-                className="bg-gray-100/80 backdrop-blur-xl rounded-2xl p-8 border border-gray-300/40"
+                className="bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl p-8 border border-gray-300/40 dark:border-gray-600/40"
                 whileHover={{ 
                   scale: 1.02,
                   rotateY: 5,
@@ -249,8 +233,8 @@ const Contact = () => {
                 }}
                 style={{ transformStyle: 'preserve-3d' }}
               >
-                <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
-                  <Zap className="text-slate-600" size={24} />
+                <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-3">
+                  <Zap className="text-slate-600 dark:text-slate-400" size={24} />
                   Let's Connect
                 </h3>
                 
@@ -272,14 +256,14 @@ const Contact = () => {
                         style={{ transformStyle: 'preserve-3d' }}
                       >
                         <motion.div 
-                          className="flex items-center gap-4 p-4 rounded-xl bg-gray-200/50 border border-gray-300/30 backdrop-blur-sm"
+                          className="flex items-center gap-4 p-4 rounded-xl bg-gray-200/50 dark:bg-gray-700/50 border border-gray-300/30 dark:border-gray-600/30 backdrop-blur-sm"
                           whileHover={{
                             background: "rgba(156,163,175,0.4)",
                             borderColor: "rgba(107,114,128,0.5)"
                           }}
                         >
                           <motion.div 
-                            className="p-3 rounded-full bg-gradient-to-br from-gray-400/50 to-gray-500/40 text-gray-700"
+                            className="p-3 rounded-full bg-gradient-to-br from-gray-400/50 to-gray-500/40 dark:from-gray-600/50 dark:to-gray-700/40 text-gray-700 dark:text-gray-300"
                             whileHover={{ 
                               scale: 1.1,
                               rotate: 5,
@@ -289,8 +273,8 @@ const Contact = () => {
                             <Icon size={20} />
                           </motion.div>
                           <div>
-                            <p className="text-sm text-gray-600 mb-1">{info.label}:</p>
-                            <p className="font-medium text-gray-800 text-lg">
+                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{info.label}:</p>
+                            <p className="font-medium text-gray-800 dark:text-gray-200 text-lg">
                               {info.value}
                             </p>
                           </div>
@@ -302,7 +286,7 @@ const Contact = () => {
                 
                 {/* Floating decorative elements */}
                 <motion.div
-                  className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-gray-400/30"
+                  className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-gray-400/30 dark:bg-gray-600/30"
                   animate={{
                     scale: [1, 1.2, 1],
                     opacity: [0.5, 1, 0.5],
@@ -314,7 +298,7 @@ const Contact = () => {
                   }}
                 />
                 <motion.div
-                  className="absolute -bottom-4 -left-4 w-6 h-6 rounded-full bg-gray-500/25"
+                  className="absolute -bottom-4 -left-4 w-6 h-6 rounded-full bg-gray-500/25 dark:bg-gray-600/25"
                   animate={{
                     rotate: [0, 360],
                     scale: [0.8, 1.1, 0.8],
@@ -340,7 +324,7 @@ const Contact = () => {
             >
               <motion.form
                 onSubmit={handleSubmit}
-                className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl p-8 lg:p-10 border border-white/20"
+                className="relative bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl rounded-3xl shadow-2xl p-8 lg:p-10 border border-white/20 dark:border-gray-700/20"
                 whileHover={{ 
                   scale: 1.01,
                   boxShadow: "0 30px 60px rgba(0,0,0,0.15)"
@@ -376,8 +360,8 @@ const Contact = () => {
                     <Send size={24} />
                   </motion.div>
                   <div>
-                    <h3 className="text-2xl font-bold text-gray-800 drip-font">Send Message</h3>
-                    <p className="text-gray-600">I'd love to hear from you</p>
+                    <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100 drip-font">Send Message</h3>
+                    <p className="text-gray-600 dark:text-gray-400">I'd love to hear from you</p>
                   </div>
                 </motion.div>
 
@@ -388,7 +372,7 @@ const Contact = () => {
                     animate={formInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                     transition={{ duration: 0.6, delay: 0.3 }}
                   >
-                    <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                       {t('contact.form.name')}
                     </label>
                     <motion.input
@@ -398,12 +382,12 @@ const Contact = () => {
                       onChange={handleChange}
                       placeholder={t('contact.form.namePlaceholder')}
                       required
-                      className="w-full px-5 py-4 rounded-xl bg-gray-50/80 backdrop-blur-sm
-                               border-2 border-gray-200 
-                               focus:border-slate-500 focus:bg-white
+                      className="w-full px-5 py-4 rounded-xl bg-gray-50/80 dark:bg-gray-700/80 backdrop-blur-sm
+                               border-2 border-gray-200 dark:border-gray-600
+                               focus:border-slate-500 focus:bg-white dark:focus:bg-gray-600
                                focus:ring-4 focus:ring-slate-500/20
                                transition-all duration-300 outline-none
-                               text-gray-800 placeholder:text-gray-400
+                               text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500
                                shadow-sm hover:shadow-md"
                       whileFocus={{ 
                         scale: 1.02,
@@ -418,7 +402,7 @@ const Contact = () => {
                     animate={formInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                     transition={{ duration: 0.6, delay: 0.4 }}
                   >
-                    <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                       {t('contact.form.email')}
                     </label>
                     <motion.input
@@ -428,12 +412,12 @@ const Contact = () => {
                       onChange={handleChange}
                       placeholder={t('contact.form.emailPlaceholder')}
                       required
-                      className="w-full px-5 py-4 rounded-xl bg-gray-50/80 backdrop-blur-sm
-                               border-2 border-gray-200
-                               focus:border-slate-500 focus:bg-white
+                      className="w-full px-5 py-4 rounded-xl bg-gray-50/80 dark:bg-gray-700/80 backdrop-blur-sm
+                               border-2 border-gray-200 dark:border-gray-600
+                               focus:border-slate-500 focus:bg-white dark:focus:bg-gray-600
                                focus:ring-4 focus:ring-slate-500/20
                                transition-all duration-300 outline-none
-                               text-gray-800 placeholder:text-gray-400
+                               text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500
                                shadow-sm hover:shadow-md"
                       whileFocus={{ 
                         scale: 1.02,
@@ -448,7 +432,7 @@ const Contact = () => {
                     animate={formInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                     transition={{ duration: 0.6, delay: 0.5 }}
                   >
-                    <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                       {t('contact.form.message')}
                     </label>
                     <motion.textarea
@@ -458,12 +442,12 @@ const Contact = () => {
                       placeholder={t('contact.form.messagePlaceholder')}
                       rows={6}
                       required
-                      className="w-full px-5 py-4 rounded-xl bg-gray-50/80 backdrop-blur-sm
-                               border-2 border-gray-200
-                               focus:border-slate-500 focus:bg-white
+                      className="w-full px-5 py-4 rounded-xl bg-gray-50/80 dark:bg-gray-700/80 backdrop-blur-sm
+                               border-2 border-gray-200 dark:border-gray-600
+                               focus:border-slate-500 focus:bg-white dark:focus:bg-gray-600
                                focus:ring-4 focus:ring-slate-500/20
                                transition-all duration-300 outline-none resize-none
-                               text-gray-800 placeholder:text-gray-400
+                               text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500
                                shadow-sm hover:shadow-md"
                       whileFocus={{ 
                         scale: 1.02,
@@ -598,7 +582,7 @@ const Contact = () => {
                 stiffness: 300,
                 opacity: { duration: 0.3 }
               }}
-              className="relative max-w-md w-full bg-white rounded-3xl shadow-2xl p-8 overflow-hidden"
+              className="relative max-w-md w-full bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 overflow-hidden"
               style={{ transformStyle: 'preserve-3d' }}
               onClick={(e) => e.stopPropagation()}
             >
@@ -622,11 +606,11 @@ const Contact = () => {
               {/* Close button with enhanced design */}
               <motion.button
                 onClick={() => setShowModal(false)}
-                className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors z-10"
+                className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors z-10"
                 whileHover={{ scale: 1.1, rotate: 90 }}
                 whileTap={{ scale: 0.9 }}
               >
-                <X size={20} className="text-gray-500" />
+                <X size={20} className="text-gray-500 dark:text-gray-400" />
               </motion.button>
 
               {/* Enhanced Success Icon with particles */}
@@ -699,7 +683,7 @@ const Contact = () => {
                 className="text-center relative z-10"
               >
                 <motion.h3 
-                  className="text-3xl font-bold mb-3 drip-font text-gray-800"
+                  className="text-3xl font-bold mb-3 drip-font text-gray-800 dark:text-gray-100"
                   animate={{
                     textShadow: [
                       '0 0 0px rgba(34, 197, 94, 0)',
@@ -717,7 +701,7 @@ const Contact = () => {
                 </motion.h3>
                 
                 <motion.p 
-                  className="text-gray-600 mb-8 leading-relaxed"
+                  className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.8, duration: 0.5 }}
