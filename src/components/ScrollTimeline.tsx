@@ -24,7 +24,6 @@ export interface ScrollTimelineProps {
   events: TimelineEvent[];
   title?: string;
   subtitle?: string;
-  animationOrder?: "sequential" | "staggered" | "simultaneous";
   cardAlignment?: "alternating" | "left" | "right";
   lineColor?: string;
   activeColor?: string;
@@ -69,7 +68,6 @@ export const ScrollTimeline = ({
   events = DEFAULT_EVENTS,
   title = "Timeline",
   subtitle = "Scroll to explore the journey",
-  animationOrder = "sequential",
   cardAlignment = "alternating",
   lineColor = "bg-primary/30",
   progressIndicator = true,
