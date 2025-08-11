@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import SmokeyCursor from './components/SmokeyCursor';
 import Home from './sections/Home';
 import About from './sections/About';
 import Education from './sections/Education';
@@ -27,6 +28,21 @@ function App() {
 
   return (
     <div className="min-h-screen gradient-bg text-gray-900 dark:text-gray-100 transition-colors duration-300">
+      {/* Smokey Fluid Cursor Effect */}
+      <SmokeyCursor
+        simulationResolution={128}
+        dyeResolution={1024}
+        densityDissipation={2.5}
+        velocityDissipation={2}
+        curl={3}
+        splatRadius={0.15}
+        splatForce={4000}
+        enableShading={true}
+        colorUpdateSpeed={8}
+        backgroundColor={{ r: 0, g: 0, b: 0 }}
+        transparent={true}
+      />
+      
       <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
       <main>
         <AnimatePresence mode="wait">
