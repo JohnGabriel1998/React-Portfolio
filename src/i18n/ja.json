@@ -117,6 +117,9 @@
     "title": "お問い合わせ",
     "subtitle": "一緒に働きましょう",
     "description": "ご質問がある場合や一緒に働きたい場合は、フォームまたは以下の連絡先詳細を使用してお気軽にお問い合わせください。",
+    "connectTitle": "つながりましょう",
+    "formTitle": "メッセージを送信",
+    "formSubtitle": "お話しを聞かせてください",
     "form": {
       "name": "お名前",
       "namePlaceholder": "お名前を入力してください",

@@ -235,7 +235,7 @@ const Contact = () => {
               >
                 <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-3">
                   <Zap className="text-slate-600 dark:text-slate-400" size={24} />
-                  Let's Connect
+                  {t('contact.connectTitle')}
                 </h3>
                 
                 <div className="space-y-6">
@@ -360,8 +360,8 @@ const Contact = () => {
                     <Send size={24} />
                   </motion.div>
                   <div>
-                    <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100 drip-font">Send Message</h3>
-                    <p className="text-gray-600 dark:text-gray-400">I'd love to hear from you</p>
+                    <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100 drip-font">{t('contact.formTitle')}</h3>
+                    <p className="text-gray-600 dark:text-gray-400">{t('contact.formSubtitle')}</p>
                   </div>
                 </motion.div>
 

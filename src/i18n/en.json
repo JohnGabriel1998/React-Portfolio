@@ -117,6 +117,9 @@
     "title": "Get In Touch",
     "subtitle": "Let's work together",
     "description": "Have a question or want to work together? Feel free to reach out using the form or the contact details below.",
+    "connectTitle": "Let's Connect",
+    "formTitle": "Send Message",
+    "formSubtitle": "I'd love to hear from you",
     "form": {
       "name": "Your Name",
       "namePlaceholder": "Enter your name",
