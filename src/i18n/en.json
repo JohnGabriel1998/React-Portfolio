@@ -143,6 +143,16 @@
       "close": "Close"
     }
   },
+  "loading": {
+    "title": "Portfolio",
+    "phases": {
+      "assets": "Loading Creative Assets",
+      "experience": "Crafting Experience",
+      "performance": "Optimizing Performance",
+      "portfolio": "Preparing My Portfolio",
+      "welcome": "Welcome to My World"
+    }
+  },
   "footer": {
     "rights": "All rights reserved",
     "madeWith": "Made with ❤️ by"

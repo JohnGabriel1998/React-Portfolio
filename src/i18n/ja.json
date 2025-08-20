@@ -143,6 +143,16 @@
       "close": "閉じる"
     }
   },
+  "loading": {
+    "title": "ポートフォリオ",
+    "phases": {
+      "assets": "クリエイティブ素材を読み込み中",
+      "experience": "体験を構築中",
+      "performance": "パフォーマンスを最適化中",
+      "portfolio": "私のポートフォリオを準備中",
+      "welcome": "私の世界へようこそ"
+    }
+  },
   "footer": {
     "rights": "全著作権所有",
     "madeWith": "❤️を込めて作成"
