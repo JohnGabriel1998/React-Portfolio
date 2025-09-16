@@ -101,7 +101,7 @@ export const ScrollTimeline = ({
   const progressHeight = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
 
   useEffect(() => {
-    const unsubscribe = scrollYProgress.onChange((v) => {
+    const unsubscribe = scrollYProgress.on("change", (v) => {
       // Make it more responsive by updating more frequently
       const progress = Math.max(0, Math.min(1, v));
       const newIndex = Math.floor(progress * events.length);

@@ -320,8 +320,8 @@ const Home = () => {
           <filter id="holographic">
             <feOffset in="SourceGraphic" dx="2" dy="0" result="offset1"/>
             <feOffset in="SourceGraphic" dx="-2" dy="0" result="offset2"/>
-            <feFlood flood-color="#ff0080" flood-opacity="0.3" result="pink"/>
-            <feFlood flood-color="#00ff80" flood-opacity="0.3" result="green"/>
+            <feFlood floodColor="#ff0080" floodOpacity="0.3" result="pink"/>
+            <feFlood floodColor="#00ff80" floodOpacity="0.3" result="green"/>
             <feComposite in="pink" in2="offset1" operator="in" result="comp1"/>
             <feComposite in="green" in2="offset2" operator="in" result="comp2"/>
             <feMerge>

@@ -4,16 +4,8 @@
 /* Import Advanced Animations */
 @import './styles/advanced-animations.css';
 
-/* Custom Font Face for Drip October */
-@font-face {
-  font-family: 'Drip October';
-  src: url('/fonts/DripOctober-Regular.ttf') format('truetype'),
-       url('/fonts/DripOctober-Regular.woff2') format('woff2'),
-       url('/fonts/DripOctober-Regular.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
+/* Custom Font Face for Drip October - Using fallback fonts */
+/* Removed local font files that were causing loading errors */
 
 @tailwind base;
 @tailwind components;
@@ -29,12 +21,13 @@
     font-family: 'Inter', system-ui, sans-serif;
   }
   
-  /* Drip October styling with Japanese support */
+  /* Drip October styling with Japanese support - using fallback fonts */
   .drip-font {
-    font-family: 'Drip October', 'Impact', sans-serif;
+    font-family: 'Impact', 'Arial Black', 'Franklin Gothic Bold', sans-serif;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     position: relative;
+    font-weight: 900;
   }
   
   /* Japanese specific drip font styling - with higher specificity */

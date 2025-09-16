@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import SmokeyCursor from './components/SmokeyCursor';
 import LoadingScreen from './components/LoadingScreen';
+import ScrollToTop from './components/ScrollToTop';
 import Home from './sections/Home';
 import About from './sections/About';
 import Education from './sections/Education';
@@ -128,6 +129,9 @@ function App() {
           </motion.div>
         </motion.div>
       )}
+      
+      {/* Scroll to Top Button - Always visible when needed */}
+      <ScrollToTop />
     </>
   );
 }

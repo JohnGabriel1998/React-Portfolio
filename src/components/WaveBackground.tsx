@@ -57,14 +57,21 @@ function WaveBackground({
   className = "",
 }: WaveBackgroundProps): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const errorCountRef = useRef(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const gl = canvas.getContext("webgl");
+    const gl = canvas.getContext("webgl", { 
+      preserveDrawingBuffer: false,
+      antialias: false 
+    });
     if (!gl) {
-      console.error("WebGL not supported");
+      if (errorCountRef.current < 1) {
+        console.warn("WebGL not supported, falling back to CSS background");
+        errorCountRef.current++;
+      }
       return;
     }
 
@@ -74,7 +81,10 @@ function WaveBackground({
       gl.shaderSource(shader, source);
       gl.compileShader(shader);
       if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        console.error("Shader compilation error:", gl.getShaderInfoLog(shader));
+        if (errorCountRef.current < 1) {
+          console.error("Shader compilation error:", gl.getShaderInfoLog(shader));
+          errorCountRef.current++;
+        }
         gl.deleteShader(shader);
         return null;
       }
@@ -124,8 +134,13 @@ function WaveBackground({
 
       const currentTime = (Date.now() - startTime) / 1000;
 
-      gl.uniform2f(iResolutionLocation, width, height);
-      gl.uniform1f(iTimeLocation, currentTime);
+      // Check if uniform locations are valid before using them
+      if (iResolutionLocation !== null) {
+        gl.uniform2f(iResolutionLocation, width, height);
+      }
+      if (iTimeLocation !== null) {
+        gl.uniform1f(iTimeLocation, currentTime);
+      }
 
       gl.drawArrays(gl.TRIANGLES, 0, 6);
       requestAnimationFrame(render);
