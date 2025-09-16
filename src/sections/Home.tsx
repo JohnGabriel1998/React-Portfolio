@@ -53,7 +53,7 @@ const Home = () => {
 
   const downloadResume = () => {
     const link = document.createElement('a');
-    link.href = '/My Resume.pdf';
+    link.href = '/CV.pdf';
     link.download = 'John_Gabriel_Resume.pdf';
     document.body.appendChild(link);
     link.click();
