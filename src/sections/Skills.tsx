@@ -1,6 +1,6 @@
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { useRef, useState, useEffect } from 'react';
+import { useRef } from 'react';
 import { Zap, Sparkles } from 'lucide-react';
 
 // Simple Icons SVG Components
@@ -222,10 +222,10 @@ const SkillCard = ({ skill, index, rowDelay }: SkillCardProps) => {
           transition-all duration-300
         `}
         style={{
-          background: `linear-gradient(135deg, white 0%, ${skill.color.split(' ')[1]}/10 50%, white 100%)`,
+          backgroundImage: `linear-gradient(135deg, white 0%, ${skill.color.split(' ')[1]}/10 50%, white 100%)`,
         }}
         whileHover={{
-          background: `linear-gradient(135deg, ${skill.color.split(' ')[1]}/20 0%, ${skill.color.split(' ')[2]}/30 100%)`,
+          backgroundImage: `linear-gradient(135deg, ${skill.color.split(' ')[1]}/20 0%, ${skill.color.split(' ')[2]}/30 100%)`,
         }}
       >
         {/* Gradient Border on Hover */}
@@ -289,16 +289,7 @@ const SkillCard = ({ skill, index, rowDelay }: SkillCardProps) => {
 
 const Skills = () => {
   const { t } = useTranslation();
-  const [showPopups, setShowPopups] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
-
-  useEffect(() => {
-    if (isInView) {
-      const timer = setTimeout(() => setShowPopups(true), 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [isInView]);
 
   // All skills organized by categories: Frontend → Backend → Databases → Deployment/Tools
   const pyramidSkills = {
@@ -346,21 +337,6 @@ const Skills = () => {
       id="skills" 
       className="py-32 relative bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 overflow-hidden"
     >
-      {/* Skill Popup Notifications */}
-      {showPopups && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl px-6 py-3 rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50"
-          >
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              🎉 Skills pyramid activated!
-            </span>
-          </motion.div>
-        </div>
-      )}
-
       {/* Enhanced Background Effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Animated gradient orbs */}

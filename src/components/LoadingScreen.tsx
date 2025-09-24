@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Code, Zap, Sparkles, Rocket } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -49,6 +49,18 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete, durati
   const currentPhase = phases[phaseIndex] || phases[0];
   const IconComponent = currentPhase.icon;
 
+  // Memoize star field so keys & random positions are stable across renders
+  const stars = useMemo(() => {
+    return Array.from({ length: 100 }).map((_, i) => ({
+      id: `star-${i}`,
+      size: Math.random() * 3 + 1,
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      duration: Math.random() * 3 + 2,
+      delay: Math.random() * 2,
+    }));
+  }, []);
+
   return (
     <AnimatePresence>
       {!isComplete && (
@@ -63,24 +75,24 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete, durati
         >
           {/* Cosmic Background */}
           <div className="absolute inset-0">
-            {Array.from({ length: 100 }).map((_, i) => (
+            {stars.map(star => (
               <motion.div
-                key={i}
+                key={star.id}
                 className="absolute bg-white rounded-full"
                 style={{
-                  width: Math.random() * 3 + 1 + 'px',
-                  height: Math.random() * 3 + 1 + 'px',
-                  left: Math.random() * 100 + '%',
-                  top: Math.random() * 100 + '%',
+                  width: star.size + 'px',
+                  height: star.size + 'px',
+                  left: star.left + '%',
+                  top: star.top + '%',
                 }}
                 animate={{
                   opacity: [0.3, 1, 0.3],
                   scale: [1, 1.2, 1],
                 }}
                 transition={{
-                  duration: Math.random() * 3 + 2,
+                  duration: star.duration,
                   repeat: Infinity,
-                  delay: Math.random() * 2,
+                  delay: star.delay,
                   ease: "easeInOut"
                 }}
               />
@@ -144,7 +156,8 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete, durati
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center">
                     <motion.div
-                      key={progress}
+                      // Prefix key to avoid collision with other dynamic keyed siblings
+                      key={`progress-${progress}`}
                       initial={{ scale: 0.5, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       className="text-4xl font-bold mb-3 font-mono text-violet-400"
@@ -153,7 +166,8 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete, durati
                     </motion.div>
                     
                     <motion.div
-                      key={phaseIndex}
+                      // Distinct key namespace from progress to prevent duplicate numeric key warning
+                      key={`phase-${phaseIndex}`}
                       initial={{ scale: 0, rotate: -180 }}
                       animate={{ scale: 1, rotate: 0 }}
                       className="text-violet-400"
@@ -186,7 +200,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete, durati
             <div className="flex justify-center items-center mt-8">
               {Array.from({ length: 3 }).map((_, i) => (
                 <motion.div
-                  key={i}
+                  key={`dot-${i}`}
                   className="w-3 h-3 bg-violet-400 rounded-full mx-1"
                   animate={{
                     scale: [1, 1.5, 1],

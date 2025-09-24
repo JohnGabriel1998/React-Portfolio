@@ -120,12 +120,24 @@ function WaveBackground({
     gl.enableVertexAttribArray(positionLocation);
     gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
 
-    const iResolutionLocation = gl.getUniformLocation(program, "iResolution");
-    const iTimeLocation = gl.getUniformLocation(program, "iTime");
+  let iResolutionLocation = gl.getUniformLocation(program, "iResolution");
+  let iTimeLocation = gl.getUniformLocation(program, "iTime");
 
     let startTime = Date.now();
+    let rafId: number;
+    let disposed = false;
 
     const render = () => {
+      if (disposed) return; // guard against running after unmount
+      // Bail out if program got invalidated (context lost) to prevent INVALID_OPERATION
+      if (!gl || disposed) return;
+
+      // Reacquire uniforms if context reinitialized (rare but defensive)
+      if (iResolutionLocation === null || iTimeLocation === null) {
+        iResolutionLocation = gl.getUniformLocation(program, "iResolution");
+        iTimeLocation = gl.getUniformLocation(program, "iTime");
+      }
+
       const width = canvas.clientWidth;
       const height = canvas.clientHeight;
       canvas.width = width;
@@ -135,26 +147,32 @@ function WaveBackground({
       const currentTime = (Date.now() - startTime) / 1000;
 
       // Check if uniform locations are valid before using them
-      if (iResolutionLocation !== null) {
+      if (iResolutionLocation) {
         gl.uniform2f(iResolutionLocation, width, height);
       }
-      if (iTimeLocation !== null) {
+      if (iTimeLocation) {
         gl.uniform1f(iTimeLocation, currentTime);
       }
 
       gl.drawArrays(gl.TRIANGLES, 0, 6);
-      requestAnimationFrame(render);
+      rafId = requestAnimationFrame(render);
     };
 
-    render();
+    rafId = requestAnimationFrame(render);
 
     // Cleanup function
     return () => {
-      if (gl) {
-        gl.deleteProgram(program);
-        gl.deleteShader(vertexShader);
-        gl.deleteShader(fragmentShader);
-        gl.deleteBuffer(positionBuffer);
+      disposed = true;
+      if (rafId) cancelAnimationFrame(rafId);
+      try {
+        if (gl) {
+          gl.deleteProgram(program);
+          gl.deleteShader(vertexShader);
+          gl.deleteShader(fragmentShader);
+          gl.deleteBuffer(positionBuffer);
+        }
+      } catch (e) {
+        // Swallow errors during teardown (context may already be lost)
       }
     };
   }, []);

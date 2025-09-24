@@ -1,8 +1,64 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useInView } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { Send, Mail, Phone, MapPin, X, CheckCircle, MessageCircle, Zap, Star, Sparkles } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+
+// TypeScript declaration for lord-icon
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'lord-icon': {
+        src: string;
+        trigger?: string;
+        colors?: string;
+        style?: React.CSSProperties;
+        [key: string]: any;
+      };
+    }
+  }
+}
+
+// Lordicon component wrapper
+const LordIcon = ({ 
+  src, 
+  trigger = "hover", 
+  colors = "primary:#64748b,secondary:#475569", 
+  style = {},
+  size = 24,
+  className = "",
+  ...props 
+}: {
+  src: string;
+  trigger?: string;
+  colors?: string;
+  style?: React.CSSProperties;
+  size?: number;
+  className?: string;
+  [key: string]: any;
+}) => {
+  useEffect(() => {
+    const loadScript = async () => {
+      if (!document.querySelector('script[src="https://cdn.lordicon.com/lordicon.js"]')) {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.lordicon.com/lordicon.js';
+        script.async = true;
+        document.head.appendChild(script);
+      }
+    };
+    loadScript();
+  }, []);
+
+  return (
+    <lord-icon
+      src={src}
+      trigger={trigger}
+      colors={colors}
+      style={{ width: `${size}px`, height: `${size}px`, ...style }}
+      className={className}
+      {...props}
+    />
+  );
+};
 
 // Initialize EmailJS with your public key
 emailjs.init('43-d5EEyw7JDFYFwH');
@@ -70,9 +126,27 @@ const Contact = () => {
   };
 
   const contactInfo = [
-    { icon: Mail, label: t('contact.info.email'), value: 'johncaganda0@gmail.com' },
-    { icon: Phone, label: t('contact.info.phone'), value: '080 6383 3169' },
-    { icon: MapPin, label: t('contact.info.location'), value: 'Niigata, Japan' },
+    { 
+      icon: "https://cdn.lordicon.com/diihvcfp.json", 
+      label: t('contact.info.email'), 
+      value: 'johncaganda0@gmail.com',
+      trigger: "loop",
+      colors: "primary:#64748b,secondary:#e11d48"
+    },
+    { 
+      icon: "https://cdn.lordicon.com/srsgifqc.json", 
+      label: t('contact.info.phone'), 
+      value: '080 6383 3169',
+      trigger: "loop",
+      colors: "primary:#64748b,secondary:#10b981"
+    },
+    { 
+      icon: "https://cdn.lordicon.com/surcxhka.json", 
+      label: t('contact.info.location'), 
+      value: 'Niigata, Japan',
+      trigger: "loop",
+      colors: "primary:#64748b,secondary:#3b82f6"
+    },
   ];
 
   return (
@@ -82,12 +156,15 @@ const Contact = () => {
         id="contact" 
         className="py-32 relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900"
       >
-        {/* Enhanced animated background */}
+        {/* Enhanced animated background with floating elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {/* Animated gradient mesh */}
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-100/50 via-gray-50/30 to-slate-200/40 dark:from-slate-900/50 dark:via-gray-900/30 dark:to-slate-800/40" />
+          
           {/* Floating geometric shapes with parallax */}
           <motion.div
             style={{ y: y1, rotate }}
-            className="absolute top-20 left-20 w-32 h-32 bg-gray-400/20 dark:bg-blue-400/20 rounded-full blur-xl"
+            className="absolute top-20 left-20 w-32 h-32 bg-slate-400/20 dark:bg-slate-500/20 rounded-full blur-xl"
             animate={{
               scale: [1, 1.2, 1],
               x: [0, 50, 0],
@@ -100,7 +177,7 @@ const Contact = () => {
           />
           <motion.div
             style={{ y: y2, rotate: useTransform(rotate, r => -r) }}
-            className="absolute bottom-20 right-20 w-24 h-24 bg-slate-500/25 dark:bg-purple-500/25 rounded-xl"
+            className="absolute bottom-20 right-20 w-24 h-24 bg-gray-500/25 dark:bg-gray-400/25 rounded-xl"
             animate={{
               scale: [1, 1.3, 1],
               y: [0, -30, 0],
@@ -113,34 +190,134 @@ const Contact = () => {
             }}
           />
           
-          {/* Animated particles */}
-          {[...Array(15)].map((_, i) => (
+          {/* Enhanced animated particles */}
+          {[...Array(20)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-2 h-2 bg-gray-600/30 dark:bg-gray-300/30 rounded-full"
+              className="absolute rounded-full"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
+                width: `${4 + Math.random() * 8}px`,
+                height: `${4 + Math.random() * 8}px`,
+                backgroundColor: i % 3 === 0 ? 'rgba(100,116,139,0.3)' : 
+                                i % 3 === 1 ? 'rgba(71,85,105,0.25)' : 
+                                'rgba(156,163,175,0.2)'
               }}
               animate={{
-                y: [0, -100, 0],
+                y: [0, -150 - Math.random() * 50, 0],
                 opacity: [0, 1, 0],
-                scale: [0.5, 1, 0.5],
+                scale: [0.5, 1.2, 0.5],
+                rotate: [0, 360],
               }}
               transition={{
-                duration: 6 + Math.random() * 4,
+                duration: 8 + Math.random() * 6,
                 repeat: Infinity,
-                delay: Math.random() * 3,
+                delay: Math.random() * 4,
                 ease: "easeInOut"
               }}
             />
           ))}
           
-          {/* Glass morphism waves */}
+          {/* Floating lordicons as decorative elements */}
           <motion.div
-            className="absolute inset-0 opacity-20"
+            className="absolute top-32 right-32"
+            animate={{
+              y: [0, -25, 0],
+              rotate: [0, 15, -10, 0],
+              scale: [1, 1.1, 1],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            <LordIcon 
+              src="https://cdn.lordicon.com/gqzfzudq.json" 
+              trigger="loop"
+              colors="primary:#64748b,secondary:#f59e0b"
+              size={48}
+              style={{ opacity: 0.15 }}
+            />
+          </motion.div>
+          
+          <motion.div
+            className="absolute bottom-32 left-32"
+            animate={{
+              y: [0, 20, -15, 0],
+              rotate: [0, -15, 10, 0],
+              scale: [1, 1.15, 0.95, 1],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 2
+            }}
+          >
+            <LordIcon 
+              src="https://cdn.lordicon.com/eszyyflr.json" 
+              trigger="loop"
+              colors="primary:#64748b,secondary:#06b6d4"
+              size={42}
+              style={{ opacity: 0.2 }}
+            />
+          </motion.div>
+          
+          {/* Additional floating icons */}
+          <motion.div
+            className="absolute top-1/4 left-20"
+            animate={{
+              x: [0, 15, -10, 0],
+              y: [0, -12, 8, 0],
+              rotate: [0, 20, -15, 0],
+            }}
+            transition={{
+              duration: 12,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 4
+            }}
+          >
+            <LordIcon 
+              src="https://cdn.lordicon.com/fdxqrdfe.json" 
+              trigger="loop"
+              colors="primary:#64748b,secondary:#8b5cf6"
+              size={36}
+              style={{ opacity: 0.12 }}
+            />
+          </motion.div>
+          
+          <motion.div
+            className="absolute bottom-1/4 right-16"
+            animate={{
+              x: [0, -18, 12, 0],
+              y: [0, 15, -8, 0],
+              rotate: [0, -25, 18, 0],
+              scale: [1, 1.2, 0.9, 1],
+            }}
+            transition={{
+              duration: 9,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1
+            }}
+          >
+            <LordIcon 
+              src="https://cdn.lordicon.com/rhvddzym.json" 
+              trigger="loop"
+              colors="primary:#64748b,secondary:#e2e8f0"
+              size={40}
+              style={{ opacity: 0.18 }}
+            />
+          </motion.div>
+          
+          {/* Glass morphism waves with enhanced design */}
+          <motion.div
+            className="absolute inset-0 opacity-30"
             style={{
-              background: 'radial-gradient(circle at 30% 70%, rgba(255,255,255,0.3) 0%, transparent 50%)',
+              background: 'radial-gradient(circle at 30% 70%, rgba(100,116,139,0.15) 0%, transparent 50%)',
               y: y1,
             }}
             animate={{
@@ -151,6 +328,24 @@ const Contact = () => {
               duration: 15,
               repeat: Infinity,
               ease: "easeInOut"
+            }}
+          />
+          
+          <motion.div
+            className="absolute inset-0 opacity-20"
+            style={{
+              background: 'radial-gradient(circle at 70% 30%, rgba(71,85,105,0.2) 0%, transparent 60%)',
+              y: y2,
+            }}
+            animate={{
+              scale: [1, 1.2, 1],
+              rotate: [0, -8, 0],
+            }}
+            transition={{
+              duration: 18,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 3
             }}
           />
         </div>
@@ -177,9 +372,19 @@ const Contact = () => {
                 boxShadow: { duration: 3, repeat: Infinity, ease: "easeInOut" }
               }}
             >
-              <MessageCircle size={20} />
+              <LordIcon 
+                src="https://cdn.lordicon.com/fdxqrdfe.json" 
+                trigger="loop"
+                colors="primary:#64748b,secondary:#8b5cf6"
+                size={28}
+              />
               <span className="font-medium">{t('contact.subtitle')}</span>
-              <Sparkles size={16} />
+              <LordIcon 
+                src="https://cdn.lordicon.com/gqzfzudq.json" 
+                trigger="loop"
+                colors="primary:#64748b,secondary:#f59e0b"
+                size={24}
+              />
             </motion.div>
             
             <motion.h2 
@@ -234,13 +439,29 @@ const Contact = () => {
                 style={{ transformStyle: 'preserve-3d' }}
               >
                 <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-3">
-                  <Zap className="text-slate-600 dark:text-slate-400" size={24} />
+                  <motion.div
+                    animate={{
+                      scale: [1, 1.1, 1],
+                      rotate: [0, 5, -5, 0],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    <LordIcon 
+                      src="https://cdn.lordicon.com/eszyyflr.json" 
+                      trigger="loop"
+                      colors="primary:#64748b,secondary:#06b6d4"
+                      size={32}
+                    />
+                  </motion.div>
                   {t('contact.connectTitle')}
                 </h3>
                 
                 <div className="space-y-6">
                   {contactInfo.map((info, index) => {
-                    const Icon = info.icon;
                     return (
                       <motion.div
                         key={index}
@@ -263,14 +484,27 @@ const Contact = () => {
                           }}
                         >
                           <motion.div 
-                            className="p-3 rounded-full bg-gradient-to-br from-gray-400/50 to-gray-500/40 dark:from-gray-600/50 dark:to-gray-700/40 text-gray-700 dark:text-gray-300"
+                            className="p-3 rounded-full bg-gradient-to-br from-gray-400/50 to-gray-500/40 dark:from-gray-600/50 dark:to-gray-700/40"
                             whileHover={{ 
-                              scale: 1.1,
-                              rotate: 5,
+                              scale: 1.15,
+                              rotate: 10,
                               background: "linear-gradient(135deg, rgba(107,114,128,0.6), rgba(75,85,99,0.5))"
                             }}
+                            animate={{
+                              y: [0, -5, 0],
+                              rotate: [0, 2, -2, 0],
+                            }}
+                            transition={{
+                              y: { duration: 2 + index * 0.5, repeat: Infinity, ease: "easeInOut" },
+                              rotate: { duration: 4 + index * 0.3, repeat: Infinity, ease: "easeInOut" }
+                            }}
                           >
-                            <Icon size={20} />
+                            <LordIcon 
+                              src={info.icon}
+                              trigger={info.trigger}
+                              colors={info.colors}
+                              size={28}
+                            />
                           </motion.div>
                           <div>
                             <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{info.label}:</p>
@@ -351,13 +585,22 @@ const Contact = () => {
                         "0 0 0 0 rgba(71, 85, 105, 0.4)",
                         "0 0 0 10px rgba(71, 85, 105, 0)",
                         "0 0 0 0 rgba(71, 85, 105, 0.4)"
-                      ]
+                      ],
+                      scale: [1, 1.05, 1],
+                      rotate: [0, 3, -3, 0],
                     }}
                     transition={{
-                      boxShadow: { duration: 2, repeat: Infinity }
+                      boxShadow: { duration: 2, repeat: Infinity },
+                      scale: { duration: 2.5, repeat: Infinity, ease: "easeInOut" },
+                      rotate: { duration: 4, repeat: Infinity, ease: "easeInOut" }
                     }}
                   >
-                    <Send size={24} />
+                    <LordIcon 
+                      src="https://cdn.lordicon.com/rhvddzym.json" 
+                      trigger="loop"
+                      colors="primary:#ffffff,secondary:#e2e8f0"
+                      size={32}
+                    />
                   </motion.div>
                   <div>
                     <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100 drip-font">{t('contact.formTitle')}</h3>
@@ -505,10 +748,23 @@ const Contact = () => {
                       <>
                         <span>{t('contact.form.send')}</span>
                         <motion.div
-                          whileHover={{ x: 5, rotate: 15 }}
-                          transition={{ duration: 0.2 }}
+                          whileHover={{ x: 8, rotate: 20, scale: 1.1 }}
+                          animate={{
+                            x: [0, 2, 0],
+                            rotate: [0, 5, -5, 0],
+                          }}
+                          transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                          }}
                         >
-                          <Send size={20} />
+                          <LordIcon 
+                            src="https://cdn.lordicon.com/rhvddzym.json" 
+                            trigger="loop"
+                            colors="primary:#ffffff,secondary:#e2e8f0"
+                            size={24}
+                          />
                         </motion.div>
                       </>
                     )}
@@ -523,14 +779,19 @@ const Contact = () => {
                         exit={{ opacity: 0, y: -10, scale: 0.9 }}
                         className="flex items-center justify-center gap-2 p-4 rounded-xl bg-red-50 border border-red-200 text-red-600"
                       >
-                        <X size={16} />
+                        <LordIcon 
+                          src="https://cdn.lordicon.com/nqtddedc.json" 
+                          trigger="loop"
+                          colors="primary:#dc2626,secondary:#fca5a5"
+                          size={20}
+                        />
                         <span>{t('contact.form.error')}</span>
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
 
-                {/* Floating decorative elements */}
+                {/* Enhanced decorative elements with lordicons */}
                 <motion.div
                   className="absolute -top-6 -right-6 w-12 h-12 rounded-full bg-gradient-to-br from-slate-400 to-gray-500 opacity-20 blur-xl"
                   animate={{
@@ -556,6 +817,75 @@ const Contact = () => {
                     delay: 2
                   }}
                 />
+                
+                {/* Floating lordicons around form */}
+                <motion.div
+                  className="absolute -top-8 left-1/4"
+                  animate={{
+                    y: [0, -15, 5, 0],
+                    rotate: [0, 20, -15, 0],
+                    scale: [1, 1.1, 0.95, 1],
+                  }}
+                  transition={{
+                    duration: 7,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <LordIcon 
+                    src="https://cdn.lordicon.com/fdxqrdfe.json" 
+                    trigger="loop"
+                    colors="primary:#64748b,secondary:#8b5cf6"
+                    size={32}
+                    style={{ opacity: 0.15 }}
+                  />
+                </motion.div>
+                
+                <motion.div
+                  className="absolute -right-8 top-1/3"
+                  animate={{
+                    x: [0, 15, -8, 0],
+                    rotate: [0, -25, 12, 0],
+                    scale: [1, 1.15, 1.05, 1],
+                  }}
+                  transition={{
+                    duration: 9,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 1
+                  }}
+                >
+                  <LordIcon 
+                    src="https://cdn.lordicon.com/rhvddzym.json" 
+                    trigger="loop"
+                    colors="primary:#64748b,secondary:#e2e8f0"
+                    size={28}
+                    style={{ opacity: 0.2 }}
+                  />
+                </motion.div>
+                
+                <motion.div
+                  className="absolute -bottom-8 left-1/3"
+                  animate={{
+                    y: [0, 12, -6, 0],
+                    x: [0, -8, 10, 0],
+                    rotate: [0, 15, -20, 0],
+                  }}
+                  transition={{
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 3
+                  }}
+                >
+                  <LordIcon 
+                    src="https://cdn.lordicon.com/eszyyflr.json" 
+                    trigger="loop"
+                    colors="primary:#64748b,secondary:#06b6d4"
+                    size={30}
+                    style={{ opacity: 0.12 }}
+                  />
+                </motion.div>
               </motion.form>
             </motion.div>
           </div>
@@ -610,7 +940,24 @@ const Contact = () => {
                 whileHover={{ scale: 1.1, rotate: 90 }}
                 whileTap={{ scale: 0.9 }}
               >
-                <X size={20} className="text-gray-500 dark:text-gray-400" />
+                <motion.div
+                  animate={{
+                    rotate: [0, 5, -5, 0],
+                    scale: [1, 1.05, 1],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <LordIcon 
+                    src="https://cdn.lordicon.com/nqtddedc.json" 
+                    trigger="loop"
+                    colors="primary:#6b7280,secondary:#9ca3af"
+                    size={24}
+                  />
+                </motion.div>
               </motion.button>
 
               {/* Enhanced Success Icon with particles */}
@@ -631,7 +978,24 @@ const Contact = () => {
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.5, duration: 0.3 }}
                   >
-                    <CheckCircle size={48} className="text-white" />
+                    <motion.div
+                      animate={{
+                        scale: [1, 1.05, 1],
+                        rotate: [0, 3, -3, 0],
+                      }}
+                      transition={{
+                        duration: 2.5,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    >
+                      <LordIcon 
+                        src="https://cdn.lordicon.com/oqdmuxru.json" 
+                        trigger="loop"
+                        colors="primary:#ffffff,secondary:#10b981"
+                        size={56}
+                      />
+                    </motion.div>
                   </motion.div>
                   
                   {/* Floating particles around success icon */}
@@ -724,7 +1088,24 @@ const Contact = () => {
                            transition-all duration-300 shadow-lg hover:shadow-xl
                            flex items-center gap-2 mx-auto"
                 >
-                  <Star size={18} />
+                  <motion.div
+                    animate={{
+                      rotate: [0, 10, -10, 0],
+                      scale: [1, 1.1, 1],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    <LordIcon 
+                      src="https://cdn.lordicon.com/gqzfzudq.json" 
+                      trigger="loop"
+                      colors="primary:#ffffff,secondary:#fbbf24"
+                      size={22}
+                    />
+                  </motion.div>
                   <span>{t('contact.modal.close')}</span>
                 </motion.button>
               </motion.div>
