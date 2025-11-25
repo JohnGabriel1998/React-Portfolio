@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useInView } from 'react-intersection-observer';
+import ScrollFloat from '../components/ScrollFloat';
 
 const About = () => {
   const { t } = useTranslation();
@@ -50,10 +51,17 @@ const About = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 drip-font drip-text-shadow">
+          <ScrollFloat
+            containerClassName="mb-4"
+            textClassName="text-gray-900 dark:text-white drip-font drip-text-shadow"
+            animationDuration={1.2}
+            stagger={0.02}
+            scrollStart="top bottom+=20%"
+            scrollEnd="bottom top-=20%"
+          >
             {t('about.title')}
-          </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          </ScrollFloat>
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mt-4">
             {t('about.subtitle')}
           </p>
         </motion.div>

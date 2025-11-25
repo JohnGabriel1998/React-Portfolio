@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useInView } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import emailjs from '@emailjs/browser';
+import ScrollFloat from '../components/ScrollFloat';
 
 // TypeScript declaration for lord-icon
 declare global {
@@ -387,27 +388,16 @@ const Contact = () => {
               />
             </motion.div>
             
-            <motion.h2 
-              className="text-5xl md:text-7xl font-bold mb-6 text-gray-800 dark:text-gray-100 drip-font"
-              style={{
-                filter: 'drop-shadow(0 0 20px rgba(100,116,139,0.5))',
-                textShadow: '0 0 30px rgba(100,116,139,0.8)',
-              }}
-              animate={{
-                textShadow: [
-                  '0 0 30px rgba(100,116,139,0.8)',
-                  '0 0 50px rgba(100,116,139,1)',
-                  '0 0 30px rgba(100,116,139,0.8)'
-                ]
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
+            <ScrollFloat
+              containerClassName="mb-6"
+              textClassName="text-gray-800 dark:text-gray-100 drip-font"
+              animationDuration={1.2}
+              stagger={0.02}
+              scrollStart="top bottom+=20%"
+              scrollEnd="bottom top-=20%"
             >
               {t('contact.title')}
-            </motion.h2>
+            </ScrollFloat>
             
             <motion.p 
               className="text-xl text-gray-700/90 dark:text-gray-300/90 max-w-3xl mx-auto leading-relaxed"

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useInView } from 'react-intersection-observer';
 import { Github, ExternalLink,  Calendar, GitBranch } from 'lucide-react';
 import ElectricBorder from '../components/ElectricBorder';
+import ScrollFloat from '../components/ScrollFloat';
 
 const Portfolio = () => {
   const { t } = useTranslation();
@@ -135,10 +136,17 @@ const Portfolio = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 drip-font drip-text-shadow text-gray-900 dark:text-white">
+          <ScrollFloat
+            containerClassName="mb-4"
+            textClassName="text-gray-900 dark:text-white drip-font drip-text-shadow"
+            animationDuration={1.2}
+            stagger={0.02}
+            scrollStart="top bottom+=20%"
+            scrollEnd="bottom top-=20%"
+          >
             {t('portfolio.title')}
-          </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8">
+          </ScrollFloat>
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8 mt-4">
             {t('portfolio.subtitle')}
           </p>
 

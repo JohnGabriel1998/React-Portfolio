@@ -4,6 +4,7 @@ import { useRef, useMemo, useState, useEffect } from 'react';
 import CircularGallery from '../components/CircularGallery';
 import LogoLoop from '../components/LogoLoop';
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiJavascript, SiNodedotjs, SiPython, SiPostgresql, SiMongodb, SiGit, SiRedux, SiHtml5, SiCss3 } from 'react-icons/si';
+import ScrollFloat from '../components/ScrollFloat';
 
 // Simple Icons SVG Components
 const ReactIcon = () => (
@@ -264,11 +265,16 @@ const Skills = () => {
           viewport={{ once: true }}
           className="text-center mb-4 md:mb-6"
         >
-          <motion.h2 
-            className="text-4xl md:text-5xl font-bold mb-3 md:mb-4 text-gray-900 dark:text-white drip-font drip-text-shadow"
+          <ScrollFloat
+            containerClassName="mb-3 md:mb-4"
+            textClassName="text-gray-900 dark:text-white drip-font drip-text-shadow"
+            animationDuration={1.2}
+            stagger={0.02}
+            scrollStart="top bottom+=20%"
+            scrollEnd="bottom top-=20%"
           >
             {t('skills.title')}
-          </motion.h2>
+          </ScrollFloat>
           
           <motion.p 
             className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed"
