@@ -8,6 +8,7 @@ import {
 import { cn } from "../lib/utils";
 import { Card, CardContent } from "./card";
 import { Calendar } from "lucide-react";
+import GlitchText from "./GlitchText";
 
 export interface TimelineEvent {
   id?: string;
@@ -216,7 +217,14 @@ export const ScrollTimeline = ({
       )}
     >
       <div className="text-center py-16 px-4">
-        <h2 className="text-3xl md:text-5xl font-bold mb-4 drip-font drip-text-shadow">{title}</h2>
+        <GlitchText
+          speed={0.8}
+          enableShadows={true}
+          enableOnHover={false}
+          className="mb-4 text-gray-900 dark:text-white drip-font drip-text-shadow text-3xl md:text-5xl"
+        >
+          {title}
+        </GlitchText>
         <div className="w-16 sm:w-20 h-1 bg-gradient-primary mx-auto rounded-full mt-4"></div>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto mt-4">
           {subtitle}

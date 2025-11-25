@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useInView } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import emailjs from '@emailjs/browser';
-import ScrollFloat from '../components/ScrollFloat';
+import GlitchText from '../components/GlitchText';
 
 // TypeScript declaration for lord-icon
 declare global {
@@ -388,16 +388,14 @@ const Contact = () => {
               />
             </motion.div>
             
-            <ScrollFloat
-              containerClassName="mb-6"
-              textClassName="text-gray-800 dark:text-gray-100 drip-font"
-              animationDuration={1.2}
-              stagger={0.02}
-              scrollStart="top bottom+=20%"
-              scrollEnd="bottom top-=20%"
+            <GlitchText
+              speed={0.8}
+              enableShadows={true}
+              enableOnHover={false}
+              className="mb-6 text-gray-800 dark:text-gray-100 drip-font text-4xl md:text-5xl lg:text-6xl"
             >
               {t('contact.title')}
-            </ScrollFloat>
+            </GlitchText>
             
             <motion.p 
               className="text-xl text-gray-700/90 dark:text-gray-300/90 max-w-3xl mx-auto leading-relaxed"
