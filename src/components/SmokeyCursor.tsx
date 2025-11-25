@@ -29,6 +29,8 @@ interface SmokeyCursorProps {
   autoColors?: boolean;
 }
 
+// Removed unused interface - commented out to avoid TypeScript errors
+/*
 interface Pointer {
   id: number;
   texcoordX: number;
@@ -41,7 +43,10 @@ interface Pointer {
   moved: boolean;
   color: ColorRGB;
 }
+*/
 
+// Removed unused function
+/*
 function pointerPrototype(): Pointer {
   return {
     id: -1,
@@ -56,6 +61,7 @@ function pointerPrototype(): Pointer {
     color: { r: 0, g: 0, b: 0 },
   };
 }
+*/
 
 export default function SmokeyCursor({
   simulationResolution = 128,
@@ -81,7 +87,6 @@ export default function SmokeyCursor({
     const canvas = canvasRef.current;
     if (!canvas || disabled) return;
 
-    let pointers: Pointer[] = [pointerPrototype()];
     let config = {
       SIM_RESOLUTION: simulationResolution,
       DYE_RESOLUTION: dyeResolution,
@@ -136,8 +141,12 @@ export default function SmokeyCursor({
       let gl = canvas.getContext("webgl2", params) as WebGL2RenderingContext | null;
 
       if (!gl) {
-        gl = (canvas.getContext("webgl", params) ||
+        const webglContext = (canvas.getContext("webgl", params) ||
           canvas.getContext("experimental-webgl", params)) as WebGLRenderingContext | null;
+        if (webglContext) {
+          // For WebGL1, we'll return null as WebGL2 is required
+          return null;
+        }
       }
 
       if (!gl) return null;
@@ -150,8 +159,8 @@ export default function SmokeyCursor({
         (gl as WebGL2RenderingContext).getExtension("EXT_color_buffer_float");
         supportLinearFiltering = !!(gl as WebGL2RenderingContext).getExtension("OES_texture_float_linear");
       } else {
-        halfFloat = gl.getExtension("OES_texture_half_float");
-        supportLinearFiltering = !!gl.getExtension("OES_texture_half_float_linear");
+        // WebGL1 fallback - should not reach here as we return null above
+        return null;
       }
 
       gl.clearColor(0, 0, 0, 1);
@@ -168,9 +177,10 @@ export default function SmokeyCursor({
         formatRG = getSupportedFormat(gl, (gl as WebGL2RenderingContext).RG16F, (gl as WebGL2RenderingContext).RG, halfFloatTexType);
         formatR = getSupportedFormat(gl, (gl as WebGL2RenderingContext).R16F, (gl as WebGL2RenderingContext).RED, halfFloatTexType);
       } else {
-        formatRGBA = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
-        formatRG = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
-        formatR = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
+        // WebGL1 fallback - should not reach here
+        formatRGBA = getSupportedFormat(gl as any, (gl as any).RGBA, (gl as any).RGBA, halfFloatTexType);
+        formatRG = getSupportedFormat(gl as any, (gl as any).RGBA, (gl as any).RGBA, halfFloatTexType);
+        formatR = getSupportedFormat(gl as any, (gl as any).RGBA, (gl as any).RGBA, halfFloatTexType);
       }
 
       return {

@@ -3,8 +3,8 @@ import { useEffect, useRef } from 'react';
 import '../styles/CircularGallery.css';
 
 function debounce(func: (...args: any[]) => void, wait: number) {
-  let timeout: NodeJS.Timeout;
-  return function (...args: any[]) {
+  let timeout: ReturnType<typeof setTimeout>;
+  return function (this: any, ...args: any[]) {
     clearTimeout(timeout);
     timeout = setTimeout(() => func.apply(this, args), wait);
   };
@@ -77,7 +77,7 @@ function createTextTexture(gl: WebGLRenderingContext, text: string, font = 'bold
   context.fillStyle = color;
   context.fillText(text, canvas.width / 2, canvas.height / 2);
   
-  const texture = new Texture(gl, { generateMipmaps: false });
+  const texture = new Texture(gl as any, { generateMipmaps: false });
   texture.image = canvas;
   texture.needsUpdate = true;
   
@@ -112,7 +112,7 @@ class Title {
   }
 
   createMesh() {
-    const { texture, width, height } = createTextTexture(this.gl, this.text, this.font, this.textColor);
+    const { texture, width, height } = createTextTexture(this.gl as any, this.text, this.font, this.textColor);
     if (!texture || !texture.image || width === 0 || height === 0) {
       console.warn('Failed to create text texture for:', this.text);
       return;
@@ -122,8 +122,8 @@ class Title {
       texture.needsUpdate = true;
     }
     
-    const geometry = new Plane(this.gl);
-    const program = new Program(this.gl, {
+    const geometry = new Plane(this.gl as any);
+    const program = new Program(this.gl as any, {
       vertex: `
         attribute vec3 position;
         attribute vec2 uv;
@@ -149,7 +149,7 @@ class Title {
       transparent: true
     });
 
-    this.mesh = new Mesh(this.gl, { geometry, program });
+    this.mesh = new Mesh(this.gl as any, { geometry, program });
     const aspect = width > 0 && height > 0 ? width / height : 1;
     // Increase text size significantly for better readability
     const textHeight = this.plane.scale.y * 0.65;
@@ -178,9 +178,9 @@ class Media {
   textColor: string;
   borderRadius: number;
   font: string;
-  program: Program;
-  plane: Mesh;
-  title: Title;
+  program!: Program;
+  plane!: Mesh;
+  title!: Title;
   scale: number = 1;
   padding: number = 2;
   width: number = 0;
@@ -242,11 +242,11 @@ class Media {
   }
 
   createShader() {
-    const texture = new Texture(this.gl, {
+    const texture = new Texture(this.gl as any, {
       generateMipmaps: true
     });
 
-    this.program = new Program(this.gl, {
+    this.program = new Program(this.gl as any, {
       depthTest: false,
       depthWrite: false,
       vertex: `
@@ -318,7 +318,7 @@ class Media {
   }
 
   createMesh() {
-    this.plane = new Mesh(this.gl, {
+    this.plane = new Mesh(this.gl as any, {
       geometry: this.geometry,
       program: this.program
     });
@@ -409,23 +409,23 @@ class App {
   scrollSpeed: number;
   scroll: { ease: number; current: number; target: number; last: number };
   onCheckDebounce: (...args: any[]) => void;
-  renderer: Renderer;
-  gl: WebGLRenderingContext;
-  camera: Camera;
-  scene: Transform;
-  screen: { width: number; height: number };
-  viewport: { width: number; height: number };
-  planeGeometry: Plane;
-  mediasImages: Array<{ image: string; text: string }>;
-  medias: Media[];
+  renderer!: Renderer;
+  gl!: WebGLRenderingContext;
+  camera!: Camera;
+  scene!: Transform;
+  screen!: { width: number; height: number };
+  viewport!: { width: number; height: number };
+  planeGeometry!: Plane;
+  mediasImages!: Array<{ image: string; text: string }>;
+  medias!: Media[];
   isDown: boolean = false;
   start: number = 0;
   raf: number = 0;
-  boundOnResize: () => void;
-  boundOnWheel: (e: WheelEvent) => void;
-  boundOnTouchDown: (e: MouseEvent | TouchEvent) => void;
-  boundOnTouchMove: (e: MouseEvent | TouchEvent) => void;
-  boundOnTouchUp: () => void;
+  boundOnResize!: () => void;
+  boundOnWheel!: (e: WheelEvent) => void;
+  boundOnTouchDown!: (e: MouseEvent | TouchEvent) => void;
+  boundOnTouchMove!: (e: MouseEvent | TouchEvent) => void;
+  boundOnTouchUp!: () => void;
 
   constructor(
     container: HTMLElement,
@@ -468,13 +468,13 @@ class App {
       antialias: true,
       dpr: Math.min(window.devicePixelRatio || 1, 2)
     });
-    this.gl = this.renderer.gl;
+    this.gl = this.renderer.gl as WebGLRenderingContext;
     this.gl.clearColor(0, 0, 0, 0);
-    this.container.appendChild(this.gl.canvas);
+    this.container.appendChild(this.gl.canvas as HTMLCanvasElement);
   }
 
   createCamera() {
-    this.camera = new Camera(this.gl);
+    this.camera = new Camera(this.gl as any);
     this.camera.fov = 45;
     this.camera.position.z = 20;
   }
@@ -484,7 +484,7 @@ class App {
   }
 
   createGeometry() {
-    this.planeGeometry = new Plane(this.gl, {
+    this.planeGeometry = new Plane(this.gl as any, {
       heightSegments: 50,
       widthSegments: 100
     });
