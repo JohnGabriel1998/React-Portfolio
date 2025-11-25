@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useInView } from 'react-intersection-observer';
@@ -7,7 +7,7 @@ import ElectricBorder from '../components/ElectricBorder';
 import ScrollFloat from '../components/ScrollFloat';
 
 const Portfolio = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [ref, inView] = useInView({
     threshold: 0.3,
     triggerOnce: true,
@@ -116,11 +116,12 @@ const Portfolio = () => {
     }
   ];
 
-  const categories = [
-    { value: 'all', label: 'All Projects' },
-    { value: 'fullstack', label: 'Full Stack' },
-    { value: 'frontend', label: 'Frontend' },
-  ];
+  // Make categories reactive to language changes
+  const categories = useMemo(() => [
+    { value: 'all', label: t('portfolio.filters.all') },
+    { value: 'fullstack', label: t('portfolio.filters.fullstack') },
+    { value: 'frontend', label: t('portfolio.filters.frontend') },
+  ], [t, i18n.language]);
 
   const filteredProjects = filter === 'all' 
     ? projects 
@@ -160,7 +161,7 @@ const Portfolio = () => {
                 whileTap={{ scale: 0.95 }}
                 className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${
                   filter === cat.value
-                    ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg'
+                    ? 'bg-gradient-to-r from-violet-600 to-cyan-500 text-white shadow-lg'
                     : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:shadow-md'
                 }`}
               >

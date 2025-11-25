@@ -56,6 +56,11 @@
     "subtitle": "My recent work",
     "viewProject": "View Project",
     "viewCode": "View Code",
+    "filters": {
+      "all": "All Projects",
+      "fullstack": "Full Stack",
+      "frontend": "Frontend"
+    },
     "projects": {
       "ecommerce": {
         "title": "E-Commerce Platform",
