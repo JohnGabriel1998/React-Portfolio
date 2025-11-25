@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useInView } from 'react-intersection-observer';
-import { Code, Smartphone, Palette, Lightbulb } from 'lucide-react';
+import { Code, Users, Palette, Lightbulb } from 'lucide-react';
 
 const Services = () => {
   const { t } = useTranslation();
@@ -18,7 +18,7 @@ const Services = () => {
       gradient: 'from-blue-500 to-cyan-500',
     },
     {
-      icon: Smartphone,
+      icon: Users,
       title: t('services.mobile.title'),
       description: t('services.mobile.description'),
       gradient: 'from-purple-500 to-pink-500',

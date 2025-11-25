@@ -36,19 +36,19 @@
     "subtitle": "What I can do for you",
     "web": {
       "title": "Web Development",
-      "description": "Building responsive and dynamic web applications using modern technologies"
+      "description": "I build responsive and dynamic websites using the MERN stack. One of my main projects includes creating a full-featured apparel website with product pages, user authentication, and modern UI components. I also develop scalable full-stack applications with MongoDB, Express, React, and Node.js, including e-commerce features like secure login, product management, and responsive design."
     },
     "mobile": {
-      "title": "Mobile Development",
-      "description": "Creating cross-platform mobile applications with React Native"
+      "title": "Communication & Teamwork",
+      "description": "I communicate clearly and work effectively in team environments. Through school projects and my internship, I've learned how to share ideas, listen actively, and collaborate with both technical and non-technical members. I enjoy contributing to a positive workflow and helping teams stay organized and focused."
     },
     "ui": {
       "title": "UI/UX Design",
-      "description": "Designing intuitive and beautiful user interfaces that users love"
+      "description": "I design intuitive and visually appealing interfaces with a focus on simple layouts and smooth user experience. I apply modern design principles to create clean, user-friendly interfaces that make products easy and enjoyable to use."
     },
     "consulting": {
       "title": "Technical Consulting",
-      "description": "Providing expert advice on technology stack and architecture decisions"
+      "description": "I provide practical advice on choosing the right technologies, designing full-stack architecture, and improving development workflow. With experience in MERN, React, and Spring Boot, I help students and small teams build efficient and scalable applications."
     }
   },
   "portfolio": {

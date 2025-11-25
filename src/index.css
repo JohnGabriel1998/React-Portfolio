@@ -14,11 +14,13 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    position: relative;
   }
   
   body {
     @apply transition-colors duration-300;
     font-family: 'Inter', system-ui, sans-serif;
+    position: relative;
   }
   
   /* Drip October styling with Japanese support - using fallback fonts */

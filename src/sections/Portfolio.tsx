@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useInView } from 'react-intersection-observer';
-import { Github, ExternalLink,  Calendar, Star, GitBranch } from 'lucide-react';
+import { Github, ExternalLink,  Calendar, GitBranch } from 'lucide-react';
+import ElectricBorder from '../components/ElectricBorder';
 
 const Portfolio = () => {
   const { t } = useTranslation();
@@ -163,17 +164,9 @@ const Portfolio = () => {
 
         {/* Projects Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              onMouseEnter={() => setHoveredProject(project.id)}
-              onMouseLeave={() => setHoveredProject(null)}
-              className="group relative"
-            >
-              <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 h-full flex flex-col">
+          {filteredProjects.map((project, index) => {
+            const CardContent = (
+              <div className="bg-gray-800 dark:bg-gray-800 rounded-[16px] overflow-hidden h-full flex flex-col relative">
                 {/* Project Image / Preview */}
                 <div className="relative h-48 bg-gradient-to-br from-violet-600/20 to-indigo-600/20 overflow-hidden">
                   {/* Animated Background Pattern */}
@@ -183,22 +176,16 @@ const Portfolio = () => {
                   
                   {/* Featured Badge */}
                   {project.featured && (
-                    <div className="absolute top-4 right-4 z-10">
-                      <motion.div
-                        initial={{ rotate: -10 }}
-                        animate={{ rotate: 10 }}
-                        transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
-                        className="bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
-                      >
-                        <Star size={12} fill="currentColor" />
-                        Featured
-                      </motion.div>
+                    <div className="absolute top-4 left-4 z-10">
+                      <div className="bg-gray-700 dark:bg-gray-800 text-white px-3 py-1 rounded-md text-xs font-semibold">
+                        FEATURED
+                      </div>
                     </div>
                   )}
 
                   {/* Project Title Overlay */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <h3 className="text-2xl font-bold text-gray-800 dark:text-white text-center px-4">
+                    <h3 className="text-2xl font-bold text-center px-4 text-white">
                       {project.title}
                     </h3>
                   </div>
@@ -228,7 +215,8 @@ const Portfolio = () => {
 
                 {/* Project Details */}
                 <div className="p-6 flex-1 flex flex-col">
-                  <p className="text-gray-600 dark:text-gray-400 mb-4 flex-1">
+                  <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
+                  <p className="mb-4 flex-1 text-gray-300 opacity-80" style={{ margin: '6px 0 0', opacity: 0.8 }}>
                     {project.description}
                   </p>
 
@@ -237,20 +225,30 @@ const Portfolio = () => {
                     {project.technologies.slice(0, 4).map((tech, idx) => (
                       <span
                         key={idx}
-                        className="px-3 py-1 text-xs font-medium rounded-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
+                        className="px-3 py-1 text-xs font-medium rounded-full bg-gray-700 dark:bg-gray-800 text-gray-300 dark:text-gray-400"
                       >
                         {tech}
                       </span>
                     ))}
                     {project.technologies.length > 4 && (
-                      <span className="px-3 py-1 text-xs font-medium rounded-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                      <span className="px-3 py-1 text-xs font-medium rounded-full bg-gray-700 dark:bg-gray-800 text-gray-300 dark:text-gray-400">
                         +{project.technologies.length - 4}
                       </span>
                     )}
                   </div>
 
+                  {/* Status Indicators */}
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="px-2 py-1 text-xs font-medium rounded-md bg-gray-700 dark:bg-gray-800 text-white">
+                      Live
+                    </span>
+                    <span className="px-2 py-1 text-xs font-medium rounded-md bg-gray-700 dark:bg-gray-800 text-white">
+                      v1.0
+                    </span>
+                  </div>
+
                   {/* Project Meta */}
-                  <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
+                  <div className="flex items-center justify-between text-sm mb-4 text-gray-400">
                     <div className="flex items-center gap-1">
                       <Calendar size={14} />
                       <span>{project.date}</span>
@@ -269,36 +267,59 @@ const Portfolio = () => {
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-gray-900 dark:bg-gray-700 text-white hover:bg-gray-800 dark:hover:bg-gray-600 transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition-colors bg-gray-700 dark:bg-gray-600 text-white hover:bg-gray-600 dark:hover:bg-gray-500"
                     >
                       <Github size={18} />
                       <span>Code</span>
                     </motion.a>
-                    {project.demo !== '#' && (
+                    {project.demo !== '#' ? (
                       <motion.a
                         href={project.demo}
                         target="_blank"
                         rel="noopener noreferrer"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-violet-600 to-indigo-600 text-white hover:from-violet-700 hover:to-indigo-700 transition-all"
+                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition-all font-medium bg-white text-gray-900 hover:bg-gray-100"
                       >
                         <ExternalLink size={18} />
-                        <span>Demo</span>
+                        <span>Get Started</span>
                       </motion.a>
+                    ) : (
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition-all font-medium bg-white text-gray-900 hover:bg-gray-100"
+                      >
+                        Get Started
+                      </motion.button>
                     )}
                   </div>
                 </div>
-
-                {/* Hover Effect Overlay */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: hoveredProject === project.id ? 1 : 0 }}
-                  className="absolute inset-0 bg-gradient-to-t from-violet-600/10 to-transparent pointer-events-none"
-                />
               </div>
-            </motion.div>
-          ))}
+            );
+
+            return (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                onMouseEnter={() => setHoveredProject(project.id)}
+                onMouseLeave={() => setHoveredProject(null)}
+                className="group relative"
+              >
+                <ElectricBorder
+                  color="#7df9ff"
+                  speed={1}
+                  chaos={0.5}
+                  thickness={3}
+                  style={{ borderRadius: 16 }}
+                >
+                  {CardContent}
+                </ElectricBorder>
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* GitHub Profile Link */}
