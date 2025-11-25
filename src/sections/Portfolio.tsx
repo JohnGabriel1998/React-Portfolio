@@ -312,10 +312,10 @@ const Portfolio = () => {
                 className="group relative"
               >
                 <ElectricBorder
-                  color="#3b82f6"
+                  color="#00D9FF"
                   speed={1}
-                  chaos={0.5}
-                  thickness={2.5}
+                  chaos={0.6}
+                  thickness={3}
                   style={{ borderRadius: 16 }}
                 >
                   {CardContent}

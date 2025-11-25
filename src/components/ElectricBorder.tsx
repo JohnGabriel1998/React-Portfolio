@@ -13,7 +13,7 @@ type ElectricBorderProps = PropsWithChildren<{
 
 const ElectricBorder: React.FC<ElectricBorderProps> = ({
   children,
-  color = '#5227FF',
+  color = '#00D9FF',
   speed = 1,
   chaos = 1,
   thickness = 2,
