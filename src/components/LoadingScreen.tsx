@@ -232,7 +232,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete, durati
 
           {/* Floating Tech Icons */}
           <div className="absolute inset-0 z-[12] overflow-hidden pointer-events-none">
-            {techIcons.map((item, index) => {
+            {techIcons.map((item) => {
               const Icon = item.icon;
               return (
                 <motion.div
