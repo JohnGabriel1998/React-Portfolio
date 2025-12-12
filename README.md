@@ -27,7 +27,7 @@ This is my personal portfolio website, meticulously crafted to showcase my skill
 - 🌓 **Dark/Light Mode** - Seamless theme switching with system preference detection
 - 🌐 **Internationalization** - Multi-language support (English/Japanese)
 - 📱 **Fully Responsive** - Perfect experience across all devices
-- 🎭 **Interactive UI** - Smokey fluid cursor effects and 3D elements
+- 🎭 **Interactive UI** - Smoky fluid cursor effects and 3D elements
 - 📬 **Contact Form** - Integrated with EmailJS for direct communication
 - ♿ **Accessible** - Following WCAG guidelines for inclusivity
 - 🚀 **Modern Stack** - React 18, TypeScript, Tailwind CSS
@@ -228,7 +228,7 @@ React-Portfolio/
 
 - **Fluid Animations**: Smooth transitions using Framer Motion
 - **3D Effects**: Perspective transforms and parallax scrolling
-- **Custom Cursor**: Interactive smokey fluid cursor effect
+- **Custom Cursor**: Interactive smoky fluid cursor effect
 - **Dark Mode**: System-aware theme with manual toggle
 - **Responsive Design**: Mobile-first approach with breakpoints
 - **Loading Screen**: Animated splash screen with progress phases
