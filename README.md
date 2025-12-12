@@ -4,9 +4,6 @@
 
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=28&duration=3000&pause=1000&color=3B82F6&center=true&vCenter=true&random=false&width=435&lines=Full+Stack+Developer;React+%7C+TypeScript+Expert;Building+Amazing+Experiences" alt="Typing SVG" />
 
-[![Portfolio](https://img.shields.io/badge/Portfolio-Live-3B82F6? style=for-the-badge&logo=vercel&logoColor=white)](https://react-portfolio-wgzp.vercel. app/)
-[![GitHub](https://img.shields.io/badge/GitHub-JohnGabriel1998-181717?style=for-the-badge&logo=github)](https://github.com/JohnGabriel1998)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/johngabriel)
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="700">
 
