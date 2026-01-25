@@ -1,356 +1,509 @@
-import { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
-import { useInView } from 'react-intersection-observer';
-import { Github, ExternalLink,  Calendar, GitBranch } from 'lucide-react';
-import ElectricBorder from '../components/ElectricBorder';
-import GlitchText from '../components/GlitchText';
+import { useState, memo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { useInView } from "react-intersection-observer";
+import {
+  Github,
+  ExternalLink,
+  Clock,
+  DollarSign,
+  CheckSquare,
+  ArrowUpRight,
+  Sparkles,
+  LucideIcon,
+} from "lucide-react";
+import GlitchText from "../components/GlitchText";
+import ElectricBorder from "../components/ElectricBorder";
+
+// Project type definition
+interface Project {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  icon: LucideIcon;
+  gradient: string;
+  bgGradient: string;
+  accentColor: string;
+  technologies: string[];
+  features: string[];
+  github: string;
+  demo: string;
+  status: string;
+  year: string;
+}
+
+// Projects data outside component to prevent recreation
+const projects: Project[] = [
+  {
+    id: 1,
+    title: "portfolio.projects.focusmate.title",
+    subtitle: "portfolio.projects.focusmate.subtitle",
+    description: "portfolio.projects.focusmate.description",
+    icon: Clock,
+    gradient: "from-blue-500 via-indigo-500 to-violet-600",
+    bgGradient: "from-blue-500/10 via-indigo-500/10 to-violet-600/10",
+    accentColor: "#3b82f6",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    features: [
+      "25/5 Timer",
+      "Session History",
+      "Custom Settings",
+      "Multi-language",
+    ],
+    github: "https://github.com/JohnGabriel1998/pomodoro-study-timer",
+    demo: "https://pomodoro-study-timer-kappa.vercel.app/",
+    status: "Live",
+    year: "2025",
+  },
+  {
+    id: 2,
+    title: "portfolio.projects.moneynote.title",
+    subtitle: "portfolio.projects.moneynote.subtitle",
+    description: "portfolio.projects.moneynote.description",
+    icon: DollarSign,
+    gradient: "from-emerald-500 via-teal-500 to-cyan-600",
+    bgGradient: "from-emerald-500/10 via-teal-500/10 to-cyan-600/10",
+    accentColor: "#10b981",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Chart.js"],
+    features: [
+      "Dashboard",
+      "Category Charts",
+      "Transaction History",
+      "Multi-currency",
+    ],
+    github: "https://github.com/JohnGabriel1998/money-note-expense-tracker-app",
+    demo: "https://money-note-expense-tracker-app.vercel.app/",
+    status: "Live",
+    year: "2025",
+  },
+  {
+    id: 3,
+    title: "portfolio.projects.taskflow.title",
+    subtitle: "portfolio.projects.taskflow.subtitle",
+    description: "portfolio.projects.taskflow.description",
+    icon: CheckSquare,
+    gradient: "from-violet-500 via-purple-500 to-indigo-600",
+    bgGradient: "from-violet-500/10 via-purple-500/10 to-indigo-600/10",
+    accentColor: "#8b5cf6",
+    technologies: ["MongoDB", "Express", "React", "Node.js"],
+    features: ["Task CRUD", "Dashboard", "Progress Tracking", "MERN Stack"],
+    github: "https://github.com/JohnGabriel1998/MERN-TaskDasboard",
+    demo: "https://task-management-8uxg84qdo-johngabriel1998s-projects.vercel.app/",
+    status: "Live",
+    year: "2024",
+  },
+];
+
+// Memoized project card component for better performance
+const ProjectCard = memo(
+  ({
+    project,
+    index,
+    inView,
+    onHover,
+    onLeave,
+    onClick,
+  }: {
+    project: Project;
+    index: number;
+    inView: boolean;
+    onHover: () => void;
+    onLeave: () => void;
+    onClick: () => void;
+  }) => {
+    const { t } = useTranslation();
+    const ProjectIcon = project.icon;
+    return (
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
+        transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+        onMouseEnter={onHover}
+        onMouseLeave={onLeave}
+        onClick={onClick}
+        className="will-change-transform"
+      >
+        <ElectricBorder
+          color={project.accentColor}
+          speed={0.8}
+          chaos={0.5}
+          thickness={2}
+          style={{ borderRadius: 24 }}
+        >
+          <div
+            className={`relative h-full min-h-[280px] md:min-h-[300px] rounded-3xl overflow-hidden group cursor-pointer bg-gradient-to-br ${project.bgGradient} dark:bg-gray-800/50 transition-shadow duration-300 hover:shadow-xl`}
+          >
+            {/* Content */}
+            <div className="relative h-full p-5 md:p-6 flex flex-col">
+              {/* Top Section */}
+              <div className="flex items-start justify-between mb-4">
+                <div
+                  className={`p-3 rounded-xl bg-gradient-to-br ${project.gradient} shadow-lg`}
+                >
+                  <ProjectIcon className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-1 text-xs font-bold rounded-full bg-emerald-500 text-white">
+                    {project.status}
+                  </span>
+                  <span className="px-2.5 py-1 text-xs font-medium rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                    {project.year}
+                  </span>
+                </div>
+              </div>
+
+              {/* Title & Description */}
+              <div className="flex-1">
+                <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1">
+                  {t(project.title)}
+                </h3>
+                <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 mb-3">
+                  {t(project.subtitle)}
+                </p>
+                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed line-clamp-2 mb-4">
+                  {t(project.description)}
+                </p>
+
+                {/* Technologies */}
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {project.technologies.slice(0, 4).map((tech, idx) => (
+                    <span
+                      key={idx}
+                      style={{ borderColor: project.accentColor }}
+                      className="px-2.5 py-1 text-xs font-medium rounded-full bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-3">
+                <a
+                  href={project.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r ${project.gradient} shadow-md hover:shadow-lg transition-shadow duration-200 text-sm hover:scale-[1.02] active:scale-[0.98]`}
+                >
+                  <ExternalLink size={16} />
+                  <span>Live Demo</span>
+                </a>
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-semibold bg-gray-900 dark:bg-gray-800 text-white hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors duration-200 text-sm hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <Github size={16} />
+                </a>
+              </div>
+            </div>
+          </div>
+        </ElectricBorder>
+      </motion.div>
+    );
+  },
+);
+
+ProjectCard.displayName = "ProjectCard";
 
 const Portfolio = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [ref, inView] = useInView({
-    threshold: 0.3,
+    threshold: 0.1,
     triggerOnce: true,
   });
 
-  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
-  const [filter, setFilter] = useState('all');
+  const [activeProject, setActiveProject] = useState<number | null>(null);
 
-  // Your actual GitHub projects
-  const projects = [
-    {
-      id: 1,
-      title: 'Expense Tracker',
-      description: 'A comprehensive expense tracking application built with TypeScript and modern web technologies.',
-      image: '/projects/expense-tracker.jpg',
-      technologies: ['TypeScript', 'JavaScript', 'Bicep', 'PowerShell'],
-      category: 'fullstack',
-      github: 'https://github.com/JohnGabriel1998/ExpenseTracker',
-      demo: '#',
-      languages: [
-        { name: 'TypeScript', percent: 88.1, color: '#3178c6' },
-        { name: 'JavaScript', percent: 7.4, color: '#f7df1e' },
-        { name: 'Bicep', percent: 2.3, color: '#1FA2E5' },
-        { name: 'Other', percent: 2.2, color: '#858585' },
-      ],
-      date: '2024',
-      featured: true
-    },
-    {
-      id: 2,
-      title: 'Time Card Management',
-      description: 'Efficient time tracking and management system for businesses and freelancers.',
-      image: '/projects/timecard.jpg',
-      technologies: ['JavaScript', 'CSS'],
-      category: 'frontend',
-      github: 'https://github.com/JohnGabriel1998/TimeCardManagement',
-      demo: '#',
-      languages: [
-        { name: 'JavaScript', percent: 97, color: '#f7df1e' },
-        { name: 'CSS', percent: 2.2, color: '#1572B6' },
-        { name: 'Other', percent: 0.8, color: '#858585' },
-      ],
-      date: '2024'
-    },
-    {
-      id: 3,
-      title: 'Hospital Management System',
-      description: 'A practice project for managing hospital operations with TypeScript.',
-      image: '/projects/hospital.jpg',
-      technologies: ['TypeScript'],
-      category: 'fullstack',
-      github: 'https://github.com/JohnGabriel1998/HospitalManagementSystem',
-      demo: '#',
-      languages: [
-        { name: 'TypeScript', percent: 98.9, color: '#3178c6' },
-        { name: 'Other', percent: 1.1, color: '#858585' },
-      ],
-      date: '2024',
-      featured: true
-    },
-    {
-      id: 4,
-      title: 'Japan Hotel Booking',
-      description: 'Modern hotel booking platform focused on Japanese accommodations.',
-      image: '/projects/hotel-booking.jpg',
-      technologies: ['TypeScript', 'CSS', 'JavaScript'],
-      category: 'fullstack',
-      github: 'https://github.com/JohnGabriel1998/japan-hotel-booking',
-      demo: '#',
-      languages: [
-        { name: 'TypeScript', percent: 91.6, color: '#3178c6' },
-        { name: 'CSS', percent: 6.6, color: '#1572B6' },
-        { name: 'JavaScript', percent: 1.6, color: '#f7df1e' },
-        { name: 'HTML', percent: 0.2, color: '#E34C26' },
-      ],
-      date: '2024',
-      featured: true
-    },
-    {
-      id: 5,
-      title: 'MERN Task Dashboard',
-      description: 'Full-stack task management dashboard built with MERN stack.',
-      image: '/projects/task-dashboard.jpg',
-      technologies: ['JavaScript', 'MongoDB', 'Express', 'React', 'Node.js'],
-      category: 'fullstack',
-      github: 'https://github.com/JohnGabriel1998/MERN-TaskDasboard',
-      demo: '#',
-      languages: [
-        { name: 'JavaScript', percent: 100, color: '#f7df1e' },
-      ],
-      date: '2023'
-    },
-    {
-      id: 6,
-      title: 'Birthday Website',
-      description: 'A creative and interactive birthday celebration website.',
-      image: '/projects/birthday.jpg',
-      technologies: ['HTML'],
-      category: 'frontend',
-      github: 'https://github.com/JohnGabriel1998/Birthday-website',
-      demo: '#',
-      languages: [
-        { name: 'HTML', percent: 100, color: '#E34C26' },
-      ],
-      date: '2023'
-    }
-  ];
-
-  // Make categories reactive to language changes
-  const categories = useMemo(() => [
-    { value: 'all', label: t('portfolio.filters.all') },
-    { value: 'fullstack', label: t('portfolio.filters.fullstack') },
-    { value: 'frontend', label: t('portfolio.filters.frontend') },
-  ], [t, i18n.language]);
-
-  const filteredProjects = filter === 'all' 
-    ? projects 
-    : projects.filter(project => project.category === filter);
+  // Memoize featured project to prevent recalculation
+  const featuredProject = projects[0];
+  const secondaryProjects = projects.slice(1);
 
   return (
-    <section id="portfolio" className="py-32 bg-white dark:bg-gray-900/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
+    <section
+      id="portfolio"
+      className="py-20 md:py-32 bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-900/95 dark:to-gray-900 relative overflow-hidden"
+    >
+      {/* Background Elements - Simplified for performance */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-violet-500/5 to-pink-500/5 rounded-full opacity-50" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-r from-cyan-500/5 to-emerald-500/5 rounded-full opacity-50" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Header */}
+        <div
           ref={ref}
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className={`text-center mb-12 md:mb-20 transition-all duration-500 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
         >
+          <div
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-violet-500/10 to-cyan-500/10 border border-violet-500/20 mb-6 transition-transform duration-300 ${inView ? "scale-100" : "scale-0"}`}
+          >
+            <Sparkles className="w-4 h-4 text-violet-500" />
+            <span className="text-sm font-medium text-violet-600 dark:text-violet-400">
+              Featured Projects
+            </span>
+          </div>
+
           <GlitchText
             speed={0.8}
             enableShadows={true}
             enableOnHover={false}
-            className="mb-4 text-gray-900 dark:text-white drip-font drip-text-shadow text-4xl md:text-5xl lg:text-6xl"
+            className="mb-4 text-gray-900 dark:text-white drip-font drip-text-shadow text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
           >
-            {t('portfolio.title')}
+            {t("portfolio.title")}
           </GlitchText>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8 mt-4">
-            {t('portfolio.subtitle')}
+          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mt-4 px-4">
+            {t("portfolio.subtitle")}
           </p>
+        </div>
 
-          {/* Filter Buttons */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
-            {categories.map((cat) => (
-              <motion.button
-                key={cat.value}
-                onClick={() => setFilter(cat.value)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${
-                  filter === cat.value
-                    ? 'bg-gradient-to-r from-violet-600 to-cyan-500 text-white shadow-lg'
-                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:shadow-md'
-                }`}
-              >
-                {cat.label}
-              </motion.button>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => {
-            const CardContent = (
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-[16px] overflow-hidden h-full flex flex-col relative border border-blue-200/50 dark:border-blue-700/50 shadow-lg hover:shadow-xl transition-shadow">
-                {/* Project Image / Preview - Light Blue Top Section */}
-                <div className="relative h-48 bg-gradient-to-br from-blue-500/80 via-blue-400/80 to-blue-500/80 dark:from-blue-900/90 dark:via-blue-800/90 dark:to-blue-900/90 overflow-hidden">
-                  {/* Animated Background Pattern */}
-                  <div className="absolute inset-0 opacity-10 dark:opacity-20">
-                    <div className="absolute inset-0 bg-grid-pattern" />
-                  </div>
-                  
-                  {/* Featured Badge - Green */}
-                  {project.featured && (
-                    <div className="absolute top-4 left-4 z-10">
-                      <div className="bg-green-500 text-white px-3 py-1 rounded-md text-xs font-semibold shadow-lg">
-                        FEATURED
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Project Title Overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <h3 className="text-2xl font-bold text-center px-4 text-white drop-shadow-lg">
-                      {project.title}
-                    </h3>
-                  </div>
-
-                  {/* Language Bar */}
-                  <div className="absolute bottom-0 left-0 right-0 h-2 bg-white/20 dark:bg-gray-800/50 flex overflow-hidden">
-                    {project.languages.map((lang, idx) => (
-                      <motion.div
-                        key={idx}
-                        initial={{ scaleX: 0 }}
-                        animate={hoveredProject === project.id ? { scaleX: 1 } : { scaleX: 1 }}
-                        transition={{ duration: 0.5, delay: idx * 0.1 }}
-                        style={{
-                          width: `${lang.percent}%`,
-                          backgroundColor: lang.color,
-                          transformOrigin: 'left'
-                        }}
-                        className="relative group/lang"
-                      >
-                        <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover/lang:opacity-100 transition-opacity whitespace-nowrap">
-                          {lang.name}: {lang.percent}%
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Separator Line - Yellow or Blue */}
-                <div className={`h-0.5 ${project.featured ? 'bg-yellow-400' : 'bg-blue-400'} dark:${project.featured ? 'bg-yellow-500' : 'bg-blue-500'} opacity-70`} />
-
-                {/* Project Details - Light Bottom Section */}
-                <div className="p-6 flex-1 flex flex-col bg-white/90 dark:bg-gradient-to-b dark:from-[#0d2332] dark:to-[#0a1929]">
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{project.title}</h3>
-                  <p className="mb-4 flex-1 text-gray-700 dark:text-gray-300" style={{ margin: '6px 0 0', opacity: 0.9 }}>
-                    {project.description}
-                  </p>
-
-                  {/* Technologies - Grey Pills with Dark Text */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.technologies.slice(0, 4).map((tech, idx) => (
-                      <span
-                        key={idx}
-                        className="px-3 py-1 text-xs font-medium rounded-full bg-gray-200 text-gray-800 dark:bg-gray-600/80 dark:text-white border border-gray-300 dark:border-gray-500/30"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                    {project.technologies.length > 4 && (
-                      <span className="px-3 py-1 text-xs font-medium rounded-full bg-gray-200 text-gray-800 dark:bg-gray-600/80 dark:text-white border border-gray-300 dark:border-gray-500/30">
-                        +{project.technologies.length - 4}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Status Indicators */}
-                  <div className="flex items-center gap-2 mb-4">
-                    <span className="px-2 py-1 text-xs font-medium rounded-md bg-green-500 text-white shadow-sm">
-                      Live
-                    </span>
-                    <span className="px-2 py-1 text-xs font-medium rounded-md bg-gray-300 text-gray-800 dark:bg-gray-600/80 dark:text-white border border-gray-400 dark:border-gray-500/30">
-                      v1.0
-                    </span>
-                  </div>
-
-                  {/* Project Meta */}
-                  <div className="flex items-center justify-between text-sm mb-4 text-gray-600 dark:text-gray-400">
-                    <div className="flex items-center gap-1">
-                      <Calendar size={14} />
-                      <span>{project.date}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <GitBranch size={14} />
-                      <span>{project.languages.length} languages</span>
-                    </div>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex gap-3">
-                    <motion.a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition-colors bg-gray-800 text-white hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600"
-                    >
-                      <Github size={18} />
-                      <span>Code</span>
-                    </motion.a>
-                    {project.demo !== '#' ? (
-                      <motion.a
-                        href={project.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition-all font-medium bg-white text-gray-900 hover:bg-gray-50 border border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-700"
-                      >
-                        <ExternalLink size={18} />
-                        <span>Get Started</span>
-                      </motion.a>
-                    ) : (
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition-all font-medium bg-white text-gray-900 hover:bg-gray-50 border border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-700"
-                      >
-                        Get Started
-                      </motion.button>
-                    )}
-                  </div>
-                </div>
-              </div>
-            );
-
+        {/* Featured Projects - Bento Grid Style */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-12">
+          {/* Main Featured Project - Full Width on Mobile, Left on Desktop */}
+          {(() => {
+            const FeaturedIcon = featuredProject.icon;
             return (
               <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                onMouseEnter={() => setHoveredProject(project.id)}
-                onMouseLeave={() => setHoveredProject(null)}
-                className="group relative"
+                initial={{ opacity: 0, x: -30 }}
+                animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="lg:row-span-2 will-change-transform"
+                onClick={() =>
+                  setActiveProject(
+                    activeProject === featuredProject.id
+                      ? null
+                      : featuredProject.id,
+                  )
+                }
               >
                 <ElectricBorder
-                  color="#00D9FF"
+                  color={featuredProject.accentColor}
                   speed={1}
                   chaos={0.6}
                   thickness={3}
-                  style={{ borderRadius: 16 }}
+                  style={{ borderRadius: 24, height: "100%" }}
                 >
-                  {CardContent}
+                  <div
+                    className={`relative h-full min-h-[400px] md:min-h-[500px] lg:min-h-[600px] rounded-3xl overflow-hidden group cursor-pointer bg-gradient-to-br ${featuredProject.bgGradient} dark:bg-gray-800/50 transition-shadow duration-300 hover:shadow-xl`}
+                  >
+                    {/* Animated Gradient Background */}
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-br ${featuredProject.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
+                    />
+
+                    {/* Content */}
+                    <div className="relative h-full p-6 md:p-8 flex flex-col">
+                      {/* Top Section */}
+                      <div className="flex items-start justify-between mb-6">
+                        <div
+                          className={`p-4 rounded-2xl bg-gradient-to-br ${featuredProject.gradient} shadow-lg`}
+                        >
+                          <FeaturedIcon className="w-8 h-8 text-white" />
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="px-3 py-1 text-xs font-bold rounded-full bg-emerald-500 text-white">
+                            {featuredProject.status}
+                          </span>
+                          <span className="px-3 py-1 text-xs font-medium rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                            {featuredProject.year}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Title & Description */}
+                      <div className="flex-1">
+                        <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                          {t(featuredProject.title)}
+                        </h3>
+                        <p className="text-sm md:text-base text-gray-500 dark:text-gray-400 mb-4">
+                          {t(featuredProject.subtitle)}
+                        </p>
+                        <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base leading-relaxed mb-6">
+                          {t(featuredProject.description)}
+                        </p>
+
+                        {/* Features */}
+                        <div className="flex flex-wrap gap-2 mb-6">
+                          {featuredProject.features.map((feature, idx) => (
+                            <span
+                              key={idx}
+                              className="px-3 py-1.5 text-xs font-medium rounded-lg bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700"
+                            >
+                              {feature}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Technologies */}
+                        <div className="flex flex-wrap gap-2">
+                          {featuredProject.technologies.map((tech, idx) => (
+                            <span
+                              key={idx}
+                              style={{
+                                borderColor: featuredProject.accentColor,
+                              }}
+                              className="px-3 py-1.5 text-xs font-semibold rounded-full bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-2 shadow-sm"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-col sm:flex-row gap-3 mt-6">
+                        <a
+                          href={featuredProject.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-white bg-gradient-to-r ${featuredProject.gradient} shadow-lg hover:shadow-xl transition-shadow duration-200 hover:scale-[1.02] active:scale-[0.98]`}
+                        >
+                          <ExternalLink size={18} />
+                          <span>Live Demo</span>
+                          <ArrowUpRight size={16} />
+                        </a>
+                        <a
+                          href={featuredProject.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold bg-gray-900 dark:bg-gray-800 text-white hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                        >
+                          <Github size={18} />
+                          <span>View Code</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
                 </ElectricBorder>
               </motion.div>
             );
-          })}
+          })()}
+
+          {/* Secondary Projects - Stacked on Right */}
+          <div className="flex flex-col gap-6 md:gap-8">
+            {secondaryProjects.map((project, index) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                index={index}
+                inView={inView}
+                onHover={() => {}}
+                onLeave={() => {}}
+                onClick={() =>
+                  setActiveProject(
+                    activeProject === project.id ? null : project.id,
+                  )
+                }
+              />
+            ))}
+          </div>
         </div>
 
-        {/* GitHub Profile Link */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="text-center mt-12"
+        {/* GitHub Profile CTA */}
+        <div
+          className={`text-center transition-all duration-500 delay-300 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}
         >
           <a
             href="https://github.com/JohnGabriel1998"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-300 text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-gray-900 to-gray-800 dark:from-gray-800 dark:to-gray-700 text-white shadow-xl hover:shadow-2xl transition-shadow duration-300 group hover:scale-[1.02] active:scale-[0.98]"
           >
-            <Github size={20} />
-            <span>View More on GitHub</span>
-            <ExternalLink size={16} />
+            <Github
+              size={22}
+              className="group-hover:rotate-12 transition-transform duration-300"
+            />
+            <span className="font-semibold">Explore More on GitHub</span>
+            <ArrowUpRight
+              size={18}
+              className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300"
+            />
           </a>
-        </motion.div>
+        </div>
       </div>
+
+      {/* Project Modal/Overlay for Mobile */}
+      <AnimatePresence>
+        {activeProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/50 z-50 lg:hidden flex items-center justify-center p-4"
+            onClick={() => setActiveProject(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="bg-white dark:bg-gray-900 rounded-3xl max-w-lg w-full max-h-[80vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {(() => {
+                const project = projects.find((p) => p.id === activeProject);
+                if (!project) return null;
+                const ProjectIcon = project.icon;
+                return (
+                  <div className="p-6">
+                    <div
+                      className={`p-4 rounded-2xl bg-gradient-to-br ${project.gradient} shadow-lg w-fit mb-4`}
+                    >
+                      <ProjectIcon className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                      {t(project.title)}
+                    </h3>
+                    <p className="text-gray-500 dark:text-gray-400 mb-4">
+                      {t(project.subtitle)}
+                    </p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-6">
+                      {t(project.description)}
+                    </p>
+
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {project.features.map((feature, idx) => (
+                        <span
+                          key={idx}
+                          className="px-3 py-1.5 text-xs font-medium rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
+                        >
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="flex flex-col gap-3">
+                      <a
+                        href={project.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-white bg-gradient-to-r ${project.gradient}`}
+                      >
+                        <ExternalLink size={18} />
+                        <span>View Live Demo</span>
+                      </a>
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold bg-gray-900 dark:bg-gray-800 text-white"
+                      >
+                        <Github size={18} />
+                        <span>View Source Code</span>
+                      </a>
+                    </div>
+                  </div>
+                );
+              })()}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

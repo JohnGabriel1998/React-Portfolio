@@ -62,17 +62,20 @@
       "frontend": "フロントエンド"
     },
     "projects": {
-      "ecommerce": {
-        "title": "Eコマースプラットフォーム",
-        "description": "決済統合を備えたフル機能のオンラインショッピングプラットフォーム"
+      "focusmate": {
+        "title": "FocusMate",
+        "subtitle": "ポモドーロ学習タイマー",
+        "description": "カスタマイズ可能なセッションと履歴追跡機能を備えた、生産性向上のための美しいポモドーロタイマーアプリ"
       },
-      "social": {
-        "title": "ソーシャルメディアアプリ",
-        "description": "チャット機能を備えたリアルタイムソーシャルネットワーキングアプリケーション"
+      "moneynote": {
+        "title": "MoneyNote",
+        "subtitle": "家計簿アプリ",
+        "description": "ダッシュボード、支出カテゴリ分類、リアルタイム残高更新機能を備えた総合的な個人財務管理アプリ"
       },
-      "dashboard": {
-        "title": "分析ダッシュボード",
-        "description": "インタラクティブなチャートとレポートを備えたデータ視覚化ダッシュボード"
+      "taskflow": {
+        "title": "TaskFlow",
+        "subtitle": "タスク管理ダッシュボード",
+        "description": "日々のワークフローを整理・追跡するためのMERNスタックによる強力なタスク管理ダッシュボード"
       }
     }
   },

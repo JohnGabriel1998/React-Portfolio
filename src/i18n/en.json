@@ -62,17 +62,20 @@
       "frontend": "Frontend"
     },
     "projects": {
-      "ecommerce": {
-        "title": "E-Commerce Platform",
-        "description": "A full-featured online shopping platform with payment integration"
+      "focusmate": {
+        "title": "FocusMate",
+        "subtitle": "Pomodoro Study Timer",
+        "description": "A beautiful Pomodoro timer app designed to boost productivity with customizable sessions and history tracking"
       },
-      "social": {
-        "title": "Social Media App",
-        "description": "Real-time social networking application with chat features"
+      "moneynote": {
+        "title": "MoneyNote",
+        "subtitle": "Expense Tracker App",
+        "description": "Comprehensive personal finance app with dashboard, expense categorization, and real-time balance updates"
       },
-      "dashboard": {
-        "title": "Analytics Dashboard",
-        "description": "Data visualization dashboard with interactive charts and reports"
+      "taskflow": {
+        "title": "TaskFlow",
+        "subtitle": "Task Management Dashboard",
+        "description": "Powerful MERN stack task management dashboard for organizing and tracking daily workflows"
       }
     }
   },

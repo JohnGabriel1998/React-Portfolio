@@ -1,17 +1,17 @@
-import { useState, useEffect, Component, ErrorInfo, ReactNode } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import SmokeyCursor from './components/SmokeyCursor';
-import LoadingScreen from './components/LoadingScreen';
-import ScrollToTop from './components/ScrollToTop';
-import Home from './sections/Home';
-import About from './sections/About';
-import Education from './sections/Education';
-import Services from './sections/Services';
-import Portfolio from './sections/Portfolio';
-import Skills from './sections/Skills';
-import Contact from './sections/Contact';
+import { useState, useEffect, Component, ErrorInfo, ReactNode } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import SmokeyCursor from "./components/SmokeyCursor";
+import LoadingScreen from "./components/LoadingScreen";
+import ScrollToTop from "./components/ScrollToTop";
+import Home from "./sections/Home";
+import About from "./sections/About";
+import Education from "./sections/Education";
+import Services from "./sections/Services";
+import Portfolio from "./sections/Portfolio";
+import Skills from "./sections/Skills";
+import Contact from "./sections/Contact";
 
 // Error Boundary Component
 class ErrorBoundary extends Component<
@@ -28,7 +28,7 @@ class ErrorBoundary extends Component<
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.warn('Error caught by boundary:', error, errorInfo);
+    console.warn("Error caught by boundary:", error, errorInfo);
   }
 
   render() {
@@ -42,8 +42,11 @@ class ErrorBoundary extends Component<
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(() => {
-    const saved = localStorage.getItem('darkMode');
-    return saved === 'true' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    const saved = localStorage.getItem("darkMode");
+    return (
+      saved === "true" ||
+      (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches)
+    );
   });
 
   const handleLoadingComplete = () => {
@@ -52,73 +55,67 @@ function App() {
 
   useEffect(() => {
     if (darkMode) {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove("dark");
     }
-    localStorage.setItem('darkMode', darkMode.toString());
+    localStorage.setItem("darkMode", darkMode.toString());
   }, [darkMode]);
 
   return (
     <>
       {isLoading && (
-        <LoadingScreen 
+        <LoadingScreen
           onLoadingComplete={handleLoadingComplete}
           duration={5000}
         />
       )}
-      
+
       {!isLoading && (
-        <motion.div 
-          initial={{ 
-            opacity: 0, 
+        <motion.div
+          initial={{
+            opacity: 0,
             scale: 0.95,
             y: 20,
-            filter: "blur(5px)"
+            filter: "blur(5px)",
           }}
-          animate={{ 
-            opacity: 1, 
+          animate={{
+            opacity: 1,
             scale: 1,
             y: 0,
-            filter: "blur(0px)"
+            filter: "blur(0px)",
           }}
-          transition={{ 
-            duration: 1.2, 
+          transition={{
+            duration: 1.2,
             ease: [0.22, 1, 0.36, 1], // Custom easing for smooth entrance
-            delay: 0.2 // Small delay after loading completes
+            delay: 0.2, // Small delay after loading completes
           }}
           className="min-h-screen gradient-bg text-gray-900 dark:text-gray-100 transition-colors duration-300 relative"
         >
-          {/* Smokey Fluid Cursor Effect */}
+          {/* Smokey Fluid Cursor Effect - Optimized for performance */}
           <ErrorBoundary fallback={null}>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.5 }}
-            >
-              <SmokeyCursor
-                simulationResolution={128}
-                dyeResolution={1024}
-                densityDissipation={2.5}
-                velocityDissipation={2}
-                curl={3}
-                splatRadius={0.15}
-                splatForce={4000}
-                enableShading={true}
-                colorUpdateSpeed={8}
-                backgroundColor={{ r: 0, g: 0, b: 0 }}
-                transparent={true}
-              />
-            </motion.div>
+            <SmokeyCursor
+              simulationResolution={64}
+              dyeResolution={512}
+              densityDissipation={3}
+              velocityDissipation={2.5}
+              curl={2}
+              splatRadius={0.1}
+              splatForce={3000}
+              enableShading={false}
+              colorUpdateSpeed={5}
+              backgroundColor={{ r: 0, g: 0, b: 0 }}
+              transparent={true}
+            />
           </ErrorBoundary>
-          
+
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ 
-              duration: 0.8, 
+            transition={{
+              duration: 0.8,
               delay: 0.4,
-              ease: "easeOut" 
+              ease: "easeOut",
             }}
           >
             <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
@@ -127,10 +124,10 @@ function App() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ 
-                duration: 0.8, 
+              transition={{
+                duration: 0.8,
                 delay: 0.8, // Delay after main container appears
-                ease: "easeOut" 
+                ease: "easeOut",
               }}
               className="relative"
             >
@@ -148,17 +145,17 @@ function App() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ 
-              duration: 0.8, 
+            transition={{
+              duration: 0.8,
               delay: 1.2, // Last element to appear
-              ease: "easeOut" 
+              ease: "easeOut",
             }}
           >
             <Footer />
           </motion.div>
         </motion.div>
       )}
-      
+
       {/* Scroll to Top Button - Always visible when needed */}
       <ScrollToTop />
     </>
