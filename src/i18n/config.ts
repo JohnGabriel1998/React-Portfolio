@@ -2,13 +2,15 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import enTranslations from './en.json';
 import jaTranslations from './ja.json';
+import tlTranslations from './tl.json';
 
 i18n
   .use(initReactI18next)
   .init({
     resources: {
       en: { translation: enTranslations },
-      ja: { translation: jaTranslations }
+      ja: { translation: jaTranslations },
+      tl: { translation: tlTranslations }
     },
     lng: localStorage.getItem('language') || 'en',
     fallbackLng: 'en',

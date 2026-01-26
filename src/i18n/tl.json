@@ -1,0 +1,173 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "Tungkol sa Akin",
+    "services": "Serbisyo",
+    "portfolio": "Portfolio",
+    "skills": "Kakayahan",
+    "education": "Edukasyon",
+    "contact": "Kontak"
+  },
+  "hero": {
+    "greeting": "Kumusta, ako si",
+    "name": "John Gabriel",
+    "title": "Full Stack Developer",
+    "description": "Masigasig na estudyante ng IT na nakatuon sa full-stack web development gamit ang React, Node.js, Express, at MongoDB. Kasalukuyang intern sa Adam Innovation habang gumagawa ng mga responsive at tunay na aplikasyon. Ginagawang maayos at madaling gamitin na digital na karanasan ang mga ideya.",
+    "subtitle": "Gumagawa ng mga digital na karanasan na nakapagbibigay inspirasyon",
+    "badge": "Available para sa bagong proyekto",
+    "cta": {
+      "hire": "Kontakin Ako",
+      "resume": "I-download ang CV"
+    }
+  },
+  "about": {
+    "title": "Tungkol sa Akin",
+    "subtitle": "Kilalanin mo ako nang higit pa",
+    "description": "Ako ay isang masigasig na full-stack developer na mahilig gumawa ng magaganda at functional na web applications. May kahusayan sa React, TypeScript, at modernong web technologies, binubuhay ko ang mga ideya sa pamamagitan ng malinis na code at maingat na disenyo.",
+    "stats": {
+      "experience": "Taon ng Karanasan",
+      "projects": "Natapos na Proyekto",
+      "clients": "Masasayang Kliyente",
+      "awards": "Natanggap na Parangal"
+    }
+  },
+  "services": {
+    "title": "Serbisyo",
+    "subtitle": "Ano ang magagawa ko para sa iyo",
+    "web": {
+      "title": "Web Development",
+      "description": "Gumagawa ako ng responsive at dynamic na mga website gamit ang MERN stack. Isa sa mga pangunahing proyekto ko ay ang paglikha ng full-featured apparel website na may product pages, user authentication, at modernong UI components. Gumagawa din ako ng scalable full-stack applications gamit ang MongoDB, Express, React, at Node.js."
+    },
+    "mobile": {
+      "title": "Komunikasyon at Teamwork",
+      "description": "Malinaw akong nakikipag-usap at epektibo akong nagtatrabaho sa team environments. Sa pamamagitan ng mga school projects at internship, natutunan ko kung paano magbahagi ng mga ideya, makinig ng aktibo, at makipagtulungan sa mga technical at non-technical na miyembro."
+    },
+    "ui": {
+      "title": "UI/UX Design",
+      "description": "Nagdidisenyo ako ng intuitive at magandang tingnan na mga interface na nakatuon sa simpleng layout at maayos na user experience. Ginagamit ko ang modernong design principles upang gumawa ng malinis at madaling gamitin na mga interface."
+    },
+    "consulting": {
+      "title": "Technical Consulting",
+      "description": "Nagbibigay ako ng praktikal na payo sa pagpili ng tamang technologies, pagdidisenyo ng full-stack architecture, at pagpapabuti ng development workflow. May karanasan sa MERN, React, at Spring Boot, tinutulungan ko ang mga estudyante at maliliit na team na gumawa ng mahusay at scalable na applications."
+    }
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "subtitle": "Mga kamakailang gawa ko",
+    "viewProject": "Tingnan ang Proyekto",
+    "viewCode": "Tingnan ang Code",
+    "filters": {
+      "all": "Lahat ng Proyekto",
+      "fullstack": "Full Stack",
+      "frontend": "Frontend"
+    },
+    "projects": {
+      "focusmate": {
+        "title": "FocusMate",
+        "subtitle": "Pomodoro Study Timer",
+        "description": "Isang magandang Pomodoro timer app na idinisenyo upang mapataas ang produktibidad na may customizable sessions at history tracking"
+      },
+      "moneynote": {
+        "title": "MoneyNote",
+        "subtitle": "Expense Tracker App",
+        "description": "Komprehensibong personal finance app na may dashboard, expense categorization, at real-time balance updates"
+      },
+      "taskflow": {
+        "title": "TaskFlow",
+        "subtitle": "Task Management Dashboard",
+        "description": "Makapangyarihang MERN stack task management dashboard para sa pag-organisa at pagsubaybay ng mga pang-araw-araw na gawain"
+      }
+    }
+  },
+  "skills": {
+    "title": "Kakayahan",
+    "subtitle": "Mga teknolohiyang ginagamit ko",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "tools": "Tools at Iba Pa",
+      "soft": "Soft Skills"
+    }
+  },
+  "education": {
+    "title": "Edukasyon",
+    "subtitle": "Ang aking academic na paglalakbay",
+    "visitWebsite": "Bisitahin ang Website",
+    "highschool": {
+      "title": "High School",
+      "institution": "Rinconada National Technical Vocational School",
+      "duration": "2011 — 2015",
+      "description": "Natapos ang sekondaryang edukasyon sa Iriga City, Camsur, Pilipinas. Nagtayo ng pundasyong kaalaman sa technical at vocational skills."
+    },
+    "japanese": {
+      "title": "Japanese Language",
+      "institution": "Yokohama International Education Academy",
+      "duration": "2022 — 2024",
+      "description": "Intensive na Japanese language study program sa Yokohama, Japan. Nakamit ang kahusayan sa Japanese communication at cultural understanding.",
+      "website": "https://yiea.com/"
+    },
+    "globalit": {
+      "title": "Global IT",
+      "institution": "Forum Information Academy",
+      "duration": "2024 — 2026",
+      "description": "Kasalukuyang kumukuha ng Global IT program sa Niigata, Japan. Nag-specialize sa modernong web technologies, software development, at international IT practices.",
+      "website": "https://forum.ac.jp"
+    },
+    "internship": {
+      "title": "Software Development Intern",
+      "institution": "Adam Innovations 株式会社",
+      "duration": "2024 — Kasalukuyan",
+      "description": "Nagtatrabaho bilang software development intern sa Adam Innovations, nakakakuha ng hands-on experience sa web development, software engineering practices, at collaborative development workflows.",
+      "website": "https://www.adam-i.com"
+    }
+  },
+  "contact": {
+    "title": "Makipag-ugnayan",
+    "subtitle": "Magtulungan tayo",
+    "description": "May tanong ka ba o gustong magtulungan? Huwag mag-atubiling makipag-ugnayan gamit ang form o ang mga contact details sa ibaba.",
+    "connectTitle": "Mag-connect Tayo",
+    "formTitle": "Magpadala ng Mensahe",
+    "formSubtitle": "Gustong-gusto kitang marinig",
+    "form": {
+      "name": "Ang Pangalan Mo",
+      "namePlaceholder": "Ilagay ang pangalan mo",
+      "email": "Ang Email Mo",
+      "emailPlaceholder": "Ilagay ang email mo",
+      "message": "Ang Mensahe Mo",
+      "messagePlaceholder": "Isulat ang mensahe mo dito",
+      "send": "Ipadala ang Mensahe",
+      "sending": "Ipinapadala...",
+      "success": "Matagumpay na naipadala ang mensahe!",
+      "error": "Hindi naipadala ang mensahe. Pakisubukan ulit."
+    },
+    "info": {
+      "email": "Email",
+      "phone": "Telepono",
+      "location": "Lokasyon"
+    },
+    "modal": {
+      "title": "Salamat!",
+      "message": "Salamat sa pakikipag-ugnayan sa akin. Babalikan kita sa lalong madaling panahon!",
+      "close": "Isara"
+    }
+  },
+  "loading": {
+    "title": "Portfolio",
+    "phases": {
+      "assets": "Nilo-load ang Creative Assets",
+      "experience": "Ginagawa ang Experience",
+      "performance": "Ino-optimize ang Performance",
+      "portfolio": "Inihahanda ang Portfolio Ko",
+      "welcome": "Maligayang Pagdating sa Aking Mundo"
+    }
+  },
+  "footer": {
+    "rights": "Lahat ng karapatan ay nakalaan",
+    "madeWith": "Ginawa ng may ❤️ ni",
+    "tagline": "Gumagawa ng nakaka-inspire na digital experiences"
+  },
+  "theme": {
+    "light": "Light Mode",
+    "dark": "Dark Mode"
+  }
+}

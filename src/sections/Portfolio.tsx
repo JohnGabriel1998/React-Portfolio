@@ -31,6 +31,7 @@ interface Project {
   demo: string;
   status: string;
   year: string;
+  images?: string[];
 }
 
 // Projects data outside component to prevent recreation
@@ -55,6 +56,11 @@ const projects: Project[] = [
     demo: "https://pomodoro-study-timer-kappa.vercel.app/",
     status: "Live",
     year: "2025",
+    images: [
+      "/images/portfolioimage/Timer1.jpeg",
+      "/images/portfolioimage/Timer2.jpeg",
+      "/images/portfolioimage/Timer3.jpeg",
+    ],
   },
   {
     id: 2,
@@ -288,7 +294,7 @@ const Portfolio = () => {
                   style={{ borderRadius: 24, height: "100%" }}
                 >
                   <div
-                    className={`relative h-full min-h-[400px] md:min-h-[500px] lg:min-h-[600px] rounded-3xl overflow-hidden group cursor-pointer bg-gradient-to-br ${featuredProject.bgGradient} dark:bg-gray-800/50 transition-shadow duration-300 hover:shadow-xl`}
+                    className={`relative h-full min-h-[500px] md:min-h-[600px] lg:min-h-[700px] rounded-3xl overflow-hidden group cursor-pointer bg-gradient-to-br ${featuredProject.bgGradient} dark:bg-gray-800/50 transition-shadow duration-300 hover:shadow-xl`}
                   >
                     {/* Animated Gradient Background */}
                     <div
@@ -297,85 +303,93 @@ const Portfolio = () => {
 
                     {/* Content */}
                     <div className="relative h-full p-6 md:p-8 flex flex-col">
-                      {/* Top Section */}
-                      <div className="flex items-start justify-between mb-6">
-                        <div
-                          className={`p-4 rounded-2xl bg-gradient-to-br ${featuredProject.gradient} shadow-lg`}
-                        >
-                          <FeaturedIcon className="w-8 h-8 text-white" />
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="px-3 py-1 text-xs font-bold rounded-full bg-emerald-500 text-white">
-                            {featuredProject.status}
-                          </span>
-                          <span className="px-3 py-1 text-xs font-medium rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
-                            {featuredProject.year}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Title & Description */}
-                      <div className="flex-1">
-                        <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
-                          {t(featuredProject.title)}
-                        </h3>
-                        <p className="text-sm md:text-base text-gray-500 dark:text-gray-400 mb-4">
-                          {t(featuredProject.subtitle)}
-                        </p>
-                        <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base leading-relaxed mb-6">
-                          {t(featuredProject.description)}
-                        </p>
-
-                        {/* Features */}
-                        <div className="flex flex-wrap gap-2 mb-6">
-                          {featuredProject.features.map((feature, idx) => (
-                            <span
-                              key={idx}
-                              className="px-3 py-1.5 text-xs font-medium rounded-lg bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700"
-                            >
-                              {feature}
+                      {/* Content */}
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
+                        className="flex-1 flex flex-col"
+                      >
+                        {/* Top Section */}
+                        <div className="flex items-start justify-between mb-6">
+                          <div
+                            className={`p-4 rounded-2xl bg-gradient-to-br ${featuredProject.gradient} shadow-lg`}
+                          >
+                            <FeaturedIcon className="w-8 h-8 text-white" />
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="px-3 py-1 text-xs font-bold rounded-full bg-emerald-500 text-white">
+                              {featuredProject.status}
                             </span>
-                          ))}
-                        </div>
-
-                        {/* Technologies */}
-                        <div className="flex flex-wrap gap-2">
-                          {featuredProject.technologies.map((tech, idx) => (
-                            <span
-                              key={idx}
-                              style={{
-                                borderColor: featuredProject.accentColor,
-                              }}
-                              className="px-3 py-1.5 text-xs font-semibold rounded-full bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-2 shadow-sm"
-                            >
-                              {tech}
+                            <span className="px-3 py-1 text-xs font-medium rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                              {featuredProject.year}
                             </span>
-                          ))}
+                          </div>
                         </div>
-                      </div>
 
-                      {/* Action Buttons */}
-                      <div className="flex flex-col sm:flex-row gap-3 mt-6">
-                        <a
-                          href={featuredProject.demo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-white bg-gradient-to-r ${featuredProject.gradient} shadow-lg hover:shadow-xl transition-shadow duration-200 hover:scale-[1.02] active:scale-[0.98]`}
-                        >
-                          <ExternalLink size={18} />
-                          <span>Live Demo</span>
-                          <ArrowUpRight size={16} />
-                        </a>
-                        <a
-                          href={featuredProject.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold bg-gray-900 dark:bg-gray-800 text-white hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors duration-200 hover:scale-[1.02] active:scale-[0.98]"
-                        >
-                          <Github size={18} />
-                          <span>View Code</span>
-                        </a>
-                      </div>
+                        {/* Title & Description */}
+                        <div className="flex-1">
+                          <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                            {t(featuredProject.title)}
+                          </h3>
+                          <p className="text-sm md:text-base text-gray-500 dark:text-gray-400 mb-4">
+                            {t(featuredProject.subtitle)}
+                          </p>
+                          <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base leading-relaxed mb-6">
+                            {t(featuredProject.description)}
+                          </p>
+
+                          {/* Features */}
+                          <div className="flex flex-wrap gap-2 mb-6">
+                            {featuredProject.features.map((feature, idx) => (
+                              <span
+                                key={idx}
+                                className="px-3 py-1.5 text-xs font-medium rounded-lg bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700"
+                              >
+                                {feature}
+                              </span>
+                            ))}
+                          </div>
+
+                          {/* Technologies */}
+                          <div className="flex flex-wrap gap-2">
+                            {featuredProject.technologies.map((tech, idx) => (
+                              <span
+                                key={idx}
+                                style={{
+                                  borderColor: featuredProject.accentColor,
+                                }}
+                                className="px-3 py-1.5 text-xs font-semibold rounded-full bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-2 shadow-sm"
+                              >
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex flex-col sm:flex-row gap-3 mt-6">
+                          <a
+                            href={featuredProject.demo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-white bg-gradient-to-r ${featuredProject.gradient} shadow-lg hover:shadow-xl transition-shadow duration-200 hover:scale-[1.02] active:scale-[0.98]`}
+                          >
+                            <ExternalLink size={18} />
+                            <span>Live Demo</span>
+                            <ArrowUpRight size={16} />
+                          </a>
+                          <a
+                            href={featuredProject.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold bg-gray-900 dark:bg-gray-800 text-white hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                          >
+                            <Github size={18} />
+                            <span>View Code</span>
+                          </a>
+                        </div>
+                      </motion.div>
                     </div>
                   </div>
                 </ElectricBorder>
