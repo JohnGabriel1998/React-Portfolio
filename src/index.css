@@ -13,16 +13,15 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
     position: relative;
   }
-  
+
   body {
     @apply transition-colors duration-300;
     font-family: 'Inter', system-ui, sans-serif;
     position: relative;
   }
-  
+
   /* Drip October styling with Japanese support - using fallback fonts */
   .drip-font {
     font-family: 'Impact', 'Arial Black', 'Franklin Gothic Bold', sans-serif;
@@ -31,17 +30,18 @@
     position: relative;
     font-weight: 900;
   }
-  
+
   /* Japanese specific drip font styling - with higher specificity */
   html[lang="ja"] .drip-font,
   [lang="ja"] .drip-font,
   body[data-lang="ja"] .drip-font {
     font-family: 'Noto Sans JP', '游ゴシック', 'Yu Gothic', 'Hiragino Sans', sans-serif !important;
     font-weight: 700;
-    text-transform: none !important; /* Don't uppercase Japanese text */
+    text-transform: none !important;
+    /* Don't uppercase Japanese text */
     letter-spacing: 0.1em;
   }
-  
+
   /* Force Japanese font for specific selectors */
   .drip-font:lang(ja),
   .drip-font[lang="ja"] {
@@ -50,7 +50,7 @@
     text-transform: none !important;
     letter-spacing: 0.1em;
   }
-  
+
   /* Japanese font class for manual application */
   .japanese-font,
   .drip-font.japanese-font {
@@ -59,7 +59,12 @@
     text-transform: none !important;
     letter-spacing: 0.1em !important;
   }
-  
+
+  /* GSAP ScrollTrigger pin-spacer fix */
+  .pin-spacer {
+    z-index: 10 !important;
+  }
+
   /* Hero title with drip effect */
   .hero-drip-title {
     font-family: 'Drip October', 'Impact', sans-serif;
@@ -69,7 +74,7 @@
     position: relative;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
   }
-  
+
   /* Japanese hero title styling - with higher specificity */
   html[lang="ja"] .hero-drip-title,
   [lang="ja"] .hero-drip-title,
@@ -80,13 +85,13 @@
     letter-spacing: 0.15em;
     line-height: 1.1;
   }
-  
+
   /* CSS-based drip effect fallback */
   .drip-effect {
     position: relative;
     display: inline-block;
   }
-  
+
   .drip-effect::after {
     content: '';
     position: absolute;
@@ -94,22 +99,23 @@
     left: 0;
     width: 100%;
     height: 20px;
-    background-image: repeating-linear-gradient(
-      90deg,
-      currentColor,
-      currentColor 3px,
-      transparent 3px,
-      transparent 6px
-    );
+    background-image: repeating-linear-gradient(90deg,
+        currentColor,
+        currentColor 3px,
+        transparent 3px,
+        transparent 6px);
     mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
     -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
     animation: drip-animation 3s ease-in-out infinite;
   }
-  
+
   @keyframes drip-animation {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: translateY(0) scaleY(1);
     }
+
     50% {
       transform: translateY(5px) scaleY(1.2);
     }
@@ -120,54 +126,51 @@
   .glass {
     @apply backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 border border-gray-200/50 dark:border-gray-700/50;
   }
-  
+
   .gradient-text {
     @apply bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent;
   }
-  
+
   /* Drip text with shadow */
   .drip-text-shadow {
-    text-shadow: 
+    text-shadow:
       0 2px 4px rgba(0, 0, 0, 0.1),
       0 4px 8px rgba(0, 0, 0, 0.1),
       0 8px 16px rgba(0, 0, 0, 0.1);
   }
-  
+
   .dark .drip-text-shadow {
-    text-shadow: 
+    text-shadow:
       0 2px 4px rgba(0, 0, 0, 0.3),
       0 4px 8px rgba(0, 0, 0, 0.3),
       0 8px 16px rgba(0, 0, 0, 0.3);
   }
-  
+
   /* Halloween/October themed gradient */
   .october-gradient {
     @apply bg-gradient-to-br from-orange-500 via-red-600 to-purple-700;
   }
-  
+
   .october-gradient-text {
     @apply bg-gradient-to-br from-orange-500 via-red-600 to-purple-700 bg-clip-text text-transparent;
   }
-  
+
   .gradient-primary {
     @apply bg-gradient-to-r from-violet-600 to-indigo-600;
   }
-  
+
   .btn-primary {
-    @apply px-8 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full font-medium 
-           hover:scale-105 transform transition-all duration-200 shadow-lg hover:shadow-xl;
+    @apply px-8 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full font-medium hover:scale-105 transform transition-all duration-200 shadow-lg hover:shadow-xl;
   }
-  
+
   .btn-secondary {
-    @apply px-8 py-3 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 
-           rounded-full font-medium hover:bg-gray-100 dark:hover:bg-gray-800 hover:scale-105 
-           transform transition-all duration-200;
+    @apply px-8 py-3 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-full font-medium hover:bg-gray-100 dark:hover:bg-gray-800 hover:scale-105 transform transition-all duration-200;
   }
-  
+
   .card {
     @apply bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-sm hover:shadow-lg transition-all duration-300;
   }
-  
+
   .tag {
     @apply px-4 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium;
   }
@@ -184,10 +187,12 @@
     transform: translateY(0) scaleY(1);
     opacity: 1;
   }
+
   50% {
     transform: translateY(20px) scaleY(1.5);
     opacity: 0.8;
   }
+
   100% {
     transform: translateY(40px) scaleY(2);
     opacity: 0;
@@ -233,9 +238,12 @@
 }
 
 @keyframes melt {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) scaleY(1);
   }
+
   50% {
     transform: translateY(3px) scaleY(1.05);
   }
@@ -253,11 +261,11 @@
   .animation-delay-2000 {
     animation-delay: 2s;
   }
-  
+
   .animation-delay-4000 {
     animation-delay: 4s;
   }
-  
+
   .text-balance {
     text-wrap: balance;
   }
@@ -282,31 +290,29 @@
 
 /* Smooth gradient background */
 .gradient-bg {
-  background: linear-gradient(to bottom, 
-    theme('colors.gray.50') 0%, 
-    theme('colors.white') 50%, 
-    theme('colors.gray.50') 100%
-  );
+  background: linear-gradient(to bottom,
+      theme('colors.gray.50') 0%,
+      theme('colors.white') 50%,
+      theme('colors.gray.50') 100%);
 }
 
 .dark .gradient-bg {
-  background: linear-gradient(to bottom, 
-    theme('colors.gray.950') 0%, 
-    theme('colors.gray.900') 50%, 
-    theme('colors.gray.950') 100%
-  );
+  background: linear-gradient(to bottom,
+      theme('colors.gray.950') 0%,
+      theme('colors.gray.900') 50%,
+      theme('colors.gray.950') 100%);
 }
 
 /* Grid Pattern for backgrounds */
 .bg-grid-pattern {
-  background-image: 
+  background-image:
     linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
 .dark .bg-grid-pattern {
-  background-image: 
+  background-image:
     linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
 }
